@@ -31,11 +31,6 @@ function createData(name, simbolo, cotacao) {
 }
 
 const rows = [
-  createData('Empresa teste 1', 159, 6.0),
-  createData('Empresa teste 2', 237, 9.0),
-  createData('Empresa teste 3', 262, 16.0),
-  createData('Empresa teste 4', 305, 3.7),
-  createData('Empresa teste 5', 356, 16.0),
 ];
 
 const useStyles = makeStyles({
@@ -46,11 +41,17 @@ const useStyles = makeStyles({
 
 export default function CustomizedTables(dados) {
   const classes = useStyles();
+  let data=dados.dados.dados.dados.stockList
 
-  if(dados!=null){
-    let data=dados.dados.dados.dados
-    console.log(data.stockList);
+  if(data!==undefined){
+
+    //console.log(data[0]);
+
+    data.map(function(item,i){
+        rows.push(createData('empresa-teste-'+i,data[i].symbol,data[i].price))
+    })
   }
+  console.log(rows)
 
   return (
     <TableContainer component={Paper}>
