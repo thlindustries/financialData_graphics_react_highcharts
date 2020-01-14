@@ -16,6 +16,8 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
 
+import Checkbox from '@material-ui/core/Checkbox';
+
 //icons
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import Fab from '@material-ui/core/Fab';
@@ -94,13 +96,14 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
+function createData(name, simbolo, cotacao) {
+  return { name, simbolo, cotacao };
 }
+
 
 const rows = [
 
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
+].sort((a, b) => (a.simbolo < b.simbolo ? -1 : 1));
 
 const useStyles2 = makeStyles({
   table: {
@@ -138,6 +141,7 @@ export default function CustomPaginationActionsTable(dados) {
       <Table className={classes.table} aria-label="custom pagination table">
       <TableHead>
           <TableRow>
+            <StyledTableCell align="left">Comparar</StyledTableCell>
             <StyledTableCell>Nome da empresa</StyledTableCell>
             <StyledTableCell align="right">Símbolo</StyledTableCell>
             <StyledTableCell align="right">Cotação atual</StyledTableCell>
@@ -149,14 +153,16 @@ export default function CustomPaginationActionsTable(dados) {
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map(row => (//
-            <TableRow key={row.name}>
+              <TableRow key={row.name}><TableCell component="th" scope="row">
+                <Checkbox/>
+              </TableCell>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
+              <TableCell align="right">{row.simbolo}</TableCell>
+              <TableCell align="right">{row.cotacao}</TableCell>
               <TableCell align="right">
-                <Fab size ='small'color="secondary" aria-label="add" id={row.calories}>
+                <Fab size ='small'color="secondary" aria-label="add" id={row.simbolo} onClick={() => { console.log('Voce apertou o botao '+row.simbolo); }}>
                   <PlayCircleOutlineIcon />
                 </Fab>
               </TableCell>
