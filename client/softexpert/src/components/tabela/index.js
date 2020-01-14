@@ -16,6 +16,10 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
 
+//icons
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import Fab from '@material-ui/core/Fab';
+
 const useStyles1 = makeStyles(theme => ({
   root: {
     flexShrink: 0,
@@ -128,7 +132,7 @@ export default function CustomPaginationActionsTable(dados) {
         rows.push(createData(data[i].name,data[i].symbol,data[i].price))
     })
   }
-  console.log(rows)
+  //console.log(rows)
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
@@ -137,19 +141,25 @@ export default function CustomPaginationActionsTable(dados) {
             <StyledTableCell>Nome da empresa</StyledTableCell>
             <StyledTableCell align="right">Símbolo</StyledTableCell>
             <StyledTableCell align="right">Cotação atual</StyledTableCell>
+            <StyledTableCell align="right">Graficos</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
-          ).map(row => (
+          ).map(row => (//
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
               <TableCell align="right">{row.calories}</TableCell>
               <TableCell align="right">{row.fat}</TableCell>
+              <TableCell align="right">
+                <Fab size ='small'color="secondary" aria-label="add" id={row.calories}>
+                  <PlayCircleOutlineIcon />
+                </Fab>
+              </TableCell>
             </TableRow>
           ))}
 
