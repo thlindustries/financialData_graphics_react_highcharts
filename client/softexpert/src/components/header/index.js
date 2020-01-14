@@ -163,7 +163,7 @@ export default function MiniDrawer(dados) {
                   <DashboardIcon />
               </ListItemIcon>
               <ListItemText>
-                  Dashboard
+                  Home
               </ListItemText>
             </ListItem>
 
