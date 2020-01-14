@@ -119,14 +119,13 @@ export default function CustomPaginationActionsTable(dados) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  let data=dados.dados.dados.dados.stockList
+  let data=dados.dados.dados.dados.symbolsList
 
   if(data!==undefined){
-
     //console.log(data[0]);
 
     data.map(function(item,i){
-        rows.push(createData('empresa-teste-'+i,data[i].symbol,data[i].price))
+        rows.push(createData(data[i].name,data[i].symbol,data[i].price))
     })
   }
   console.log(rows)

@@ -37,7 +37,7 @@ export default class src extends Component {
       resultado_dados:[]
     }
 
-    axios.get('https://financialmodelingprep.com/api/v3/stock/real-time-price/').then(resultado=>{
+    axios.get('https://financialmodelingprep.com/api/v3/company/stock/list').then(resultado=>{
       this.setState({
         resultado_dados:resultado.data
       })
