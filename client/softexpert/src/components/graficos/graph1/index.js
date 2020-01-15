@@ -18,10 +18,22 @@ let lista_despesas_operacionais=[]
 let lista_margem_ebitda=[]
 let lista_ebitda=[]
 let lista_renda_consolidada=[]
+let simbolo_empresa
 
 //função para criar o array object (data_API) com as informações da API
 function createData(revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, consolidated_income) {
   return { revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, consolidated_income };
+}
+
+//função para obter o simbolo da empresa da URL
+function splitString(stringToSplit, separator) {
+  var arrayOfStrings = stringToSplit.split(separator);
+  simbolo_empresa=arrayOfStrings[4]
+  // console.log(arrayOfStrings)
+
+  // console.log('A string original é: "' + stringToSplit + '"');
+  // console.log('O separador é: "' + separator + '"');
+  // console.log('O array tem ' + arrayOfStrings.length + ' elementos: ' + arrayOfStrings.join(' / '));
 }
 
 //função que remove os espaços das Keys do JSON retornado pela API
@@ -40,11 +52,15 @@ function replaceKeys(object) {
 
 export default class graph1 extends Component {
   constructor(props) {
+    let link = window.location.href
+    splitString(link,'/')
+    console.log(simbolo_empresa)
+    
     super(props);
     this.state={
       dados_empresa:[]
     }
-    axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/AAPL').then(resultado=>{
+    axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+simbolo_empresa).then(resultado=>{
       this.setState({
         dados_empresa:resultado.data,
         series: [
@@ -80,7 +96,7 @@ export default class graph1 extends Component {
   render() {
     let data=this.state.dados_empresa.financials;
     if(data!==undefined && page_init===0){
-
+      
       replaceKeys(data)
       data.map(function(item,i){
         data_API.push(createData(data[i].Revenue,data[i].RevenueGrowth,data[i].OperatingExpenses,data[i].EBITDAMargin,data[i].EBITDA,data[i].ConsolidatedIncome))

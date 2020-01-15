@@ -182,8 +182,8 @@ export default function MiniDrawer(dados) {
           <div className={classes.toolbar} />
           <Switch>
             {/* <Route path='/principal' render={(props) => <Principal dados={dados}/>}/> */}
-            <Route path='/principal' render={(props) => <Principal dados={dados}/>}/>
-            <Route path='/graficos' component={Graficos}/>
+            <Route path='/principal/' render={(props) => <Principal dados={dados}/>}/>
+            <Route path='/graficos/:id' component={Graficos}/>
           </Switch>
         </main>
       </div>

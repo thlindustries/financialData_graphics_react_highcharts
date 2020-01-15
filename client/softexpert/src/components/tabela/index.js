@@ -15,15 +15,18 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
-
 import Checkbox from '@material-ui/core/Checkbox';
 
 //icons
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import Fab from '@material-ui/core/Fab';
 
+//rotas
+import {Switch,Route} from 'react-router-dom'
+import Graficos from '../../views/graficos';
 
 
+//styles
 const useStyles1 = makeStyles(theme => ({
   root: {
     flexShrink: 0,
@@ -40,6 +43,7 @@ const StyledTableCell = withStyles(theme => ({
   },
 }))(TableCell);
 
+//paginação da tabela
 function TablePaginationActions(props) {
   const classes = useStyles1();
   const theme = useTheme();
@@ -98,14 +102,11 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
+//funcao para criar o array de dados vindos da API
 function createData(name, simbolo, cotacao) {
   return { name, simbolo, cotacao };
 }
-
-
-const rows = [
-
-].sort((a, b) => (a.simbolo < b.simbolo ? -1 : 1));
+const rows = [].sort((a, b) => (a.simbolo < b.simbolo ? -1 : 1));
 
 const useStyles2 = makeStyles({
   table: {
@@ -131,13 +132,11 @@ export default function CustomPaginationActionsTable(dados) {
   let data=dados.dados.dados.dados.symbolsList
 
   if(data!==undefined){
-    //console.log(data[0]);
-
     data.map(function(item,i){
         rows.push(createData(data[i].name,data[i].symbol,data[i].price))
     })
+    rows.sort((a, b) => (a.simbolo < b.simbolo ? -1 : 1));
   }
-  //console.log(rows)
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
@@ -165,7 +164,8 @@ export default function CustomPaginationActionsTable(dados) {
               <TableCell align="right">{row.cotacao}</TableCell>
               <TableCell align="right">
                 <Fab size ='small'color="secondary" aria-label="add" id={'button'+row.simbolo} onClick={() => { 
-                    console.log('Voce apertou o botao '+row.simbolo); 
+                    // console.log('Voce apertou o botao '+row.simbolo); 
+                    window.location.href = "/graficos/"+row.simbolo;
                   }}>
                   <PlayCircleOutlineIcon />
                 </Fab>
