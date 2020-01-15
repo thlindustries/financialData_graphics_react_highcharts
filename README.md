@@ -1,7 +1,7 @@
 Iniciando o desafio
 ## Instalação
 
-Use o npm [npm](https://www.npmjs.com/) para instalar as dependências.
+Use o [npm](https://www.npmjs.com/) para instalar as dependências.
 
 ```bash
 cd /client/softexpert
@@ -21,5 +21,8 @@ React:
     npm install highcharts-react-official --save
     npm install highcharts-react --save
 ```
+## Acessar a aplicação
+Para acessar a aplicação basta entrar no endereço:
 
+[localhost:3000](http://localhost:3000)
 
