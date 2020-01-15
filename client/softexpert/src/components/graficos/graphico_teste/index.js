@@ -16,7 +16,10 @@ export default class graph1 extends Component {
     setInterval(function () {
       var x = (new Date()).getTime(), // current time
         y = Math.random();
-        //series.addPoint([x, y], true, true);
+        if(series!=undefined){
+          // series.addPoint([x, y], true, true);
+          
+        }
     }, 1000);
   }
 
