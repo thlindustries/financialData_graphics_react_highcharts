@@ -14,61 +14,12 @@ import axios from 'axios';
 // import { Container } from './styles';
 const data_test=[];
 let page_init = 0;
-
-const options = {
-  title: {
-    text: 'Grafico teste',
-  },
-  series: [{
-    name:'Receita',
-    data: []
-    },{
-      name:'Crescimento da receita',
-      data: []
-    }, {
-    name:'Despesas operacionais',
-      data: []
-    }, {
-      name:'Margem EBITDA',
-        data: []
-    }, {
-      name:'EBITDA',
-        data: []
-    }, {
-      name:'Renda Consolidada',
-        data: []
-    }
-  ],
-  legend: {
-    layout: 'vertical',
-    align: 'right',
-    verticalAlign: 'middle'
-  },
-  responsive: {
-    rules: [{
-        condition: {
-            maxWidth: 500
-        },
-        chartOptions: {
-            legend: {
-                layout: 'horizontal',
-                align: 'center',
-                verticalAlign: 'bottom'
-            }
-        }
-    }]
-  },
-  yAxis: {
-    title: {
-        text: 'Valores'
-    }
-  },
-  xAxis: {
-    accessibility: {
-        rangeDescription: [2010,2011,2012]
-    }
-  },
-}
+let lista_receita=[]
+let lista_cresciment_receita=[]
+let lista_despesas_operacionais=[]
+let lista_margem_ebitda=[]
+let lista_ebitda=[]
+let lista_renda_consolidada=[]
 
 function createData(revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, consolidated_income) {
   return { revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, consolidated_income };
@@ -97,7 +48,33 @@ export default class graph1 extends Component {
 
     axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/AAPL').then(resultado=>{
       this.setState({
-        dados_empresa:resultado.data
+        dados_empresa:resultado.data,
+        series: [
+          {
+            name:'Receita',
+            data:lista_receita
+          },
+          {
+            name:'Crescimento da receita',
+            data: lista_cresciment_receita
+          },
+          {
+            name:'Despesas operacionais',
+            data: lista_despesas_operacionais
+          },
+          {
+            name:'Margem EBITDA',
+            data: lista_margem_ebitda
+          },
+          {
+            name:'EBITDA',
+            data: lista_ebitda
+          },
+          {
+            name:'Renda Consolidada',
+            data: lista_renda_consolidada
+          },
+        ]
       })
     })
   }
@@ -107,27 +84,18 @@ export default class graph1 extends Component {
       replaceKeys(data)
       data.map(function(item,i){
         data_test.push(createData(data[i].Revenue,data[i].RevenueGrowth,data[i].OperatingExpenses,data[i].EBITDAMargin,data[i].EBITDA,data[i].ConsolidatedIncome))
-        // console.log(data[i])
       })
       page_init++;
-      //options.series[0].data=68274;
+
       
-      // options.series.map(function(item,i){
-      //   console.log(options.series[i].data)
-      // })
       data_test.map(function(item,i){
-        // console.log(data_test[i].revenue)
-        options.series[0].data.push(parseFloat(data_test[i].revenue))
-        options.series[1].data.push(parseFloat(data_test[i].revenue_growth))
-        options.series[2].data.push(parseFloat(data_test[i].operational_expenses))
-        options.series[3].data.push(parseFloat(data_test[i].ebitda_margin))
-        options.series[4].data.push(parseFloat(data_test[i].ebitda))
-        options.series[5].data.push(parseFloat(data_test[i].consolidated_income))
-        // console.log(data_test[i].ebtida)
+        lista_receita.push(parseFloat(data_test[i].revenue))
+        lista_cresciment_receita.push(parseFloat(data_test[i].revenue_growth))
+        lista_despesas_operacionais.push(parseFloat(data_test[i].operational_expenses))
+        lista_margem_ebitda.push(parseFloat(data_test[i].ebitda_margin))
+        lista_ebitda.push(parseFloat(data_test[i].ebitda))
+        lista_renda_consolidada.push(parseFloat(data_test[i].consolidated_income))
       })
-      // for(let k=0;k<6;k++){
-      //   console.log(options.series[k].data)
-      // }
     }
     return (
       <Grid container spacing={2}>
@@ -135,7 +103,41 @@ export default class graph1 extends Component {
           <div>
             <HighchartsReact 
               highcharts={Highcharts}
-              options={options}
+              options={{
+                title: {
+                  text: 'Informações sobre a empresa',
+                },
+                series:this.state.series,
+                legend: {
+                  layout: 'vertical',
+                  align: 'right',
+                  verticalAlign: 'middle'
+                },
+                responsive: {
+                  rules: [{
+                      condition: {
+                          maxWidth: 500
+                      },
+                      chartOptions: {
+                          legend: {
+                              layout: 'horizontal',
+                              align: 'center',
+                              verticalAlign: 'bottom'
+                          }
+                      }
+                  }]
+                },
+                yAxis: {
+                  title: {
+                      text: 'Valores'
+                  }
+                },
+                xAxis: {
+                  accessibility: {
+                      rangeDescription: [2010,2011,2012]
+                  }
+                }
+              }}
             />
           </div>
         </Grid>

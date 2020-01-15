@@ -1,127 +1,104 @@
-// //API ---->   https://financialmodelingprep.com/api/v3/financials/income-statement/{{SIMBOLO DA EMPRESA}}
-//-----------------------------------------------------------------------------------------------------
+import React from "react";
+import { render } from "react-dom";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 
-import React, { Component } from 'react';
-import Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
-import Grid from '@material-ui/core/Grid';
+// require("./data.src.js")(Highcharts);
+// require("./boost.src.js")(Highcharts);
 
-//API
-import axios from 'axios';
-
-// import { Container } from './styles';
-const data_test=[];
-let page_init = 0;
-
-const options = {
-  title: {
-    text: 'Grafico teste',
-  },
-  // data: [data_test[0].revenue,data_test[1].revenue,data_test[2].revenue,data_test[3].revenue,data_test[4].revenue,data_test[5].revenue,data_test[6].revenue,data_test[7].revenue,data_test[8].revenue,data_test[9].revenue,data_test[10].revenue,data_test[11].revenue]
-  series: [{
-    name:'Receita',
-    data: [18274, 24916, 57177, 15112, 97031, 119931, 18111, 5948]
-    },{
-      name:'Crescimento da receita',
-      data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-    }, {
-    name:'Despesas operacionais',
-      data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-    }, {
-      name:'Margem EBITDA',
-        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-    }, {
-      name:'EBITDA',
-        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-    }, {
-      name:'Renda Consolidada',
-        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-    }
-  ],
-  legend: {
-    layout: 'vertical',
-    align: 'right',
-    verticalAlign: 'middle'
-  },
-  responsive: {
-    rules: [{
-        condition: {
-            maxWidth: 500
-        },
-        chartOptions: {
-            legend: {
-                layout: 'horizontal',
-                align: 'center',
-                verticalAlign: 'bottom'
-            }
-        }
-    }]
-  },
-  yAxis: {
-    title: {
-        text: 'Valores'
-    }
-  },
-  xAxis: {
-    accessibility: {
-        rangeDescription: [2010,2011,2012]
-    }
-  },
-}
-
-function createData(revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, conolidated_income) {
-  return { revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, conolidated_income };
-}
-
-function replaceKeys(object) {
-  Object.keys(object).forEach(function (key) {
-      var newKey = key.replace(/\s+/g, '');
-      if (object[key] && typeof object[key] === 'object') {
-          replaceKeys(object[key]);
-      }
-      if (key !== newKey) {
-          object[newKey] = object[key];
-          delete object[key];
-      }
-  });
-}
-
-export default class graph1 extends Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state={
-      dados_empresa:[]
-    }
-
-    axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/AAPL').then(resultado=>{
-      this.setState({
-        dados_empresa:resultado.data
-      })
-    })
+    this.state = {
+      data: [["Time"]]
+    };
   }
+
+  componentDidMount() {
+    window.setInterval(this.updateState, 500);
+  }
+
+  updateState = () => {
+    this.setState({
+      data: [
+        ["Time", "2018-11-28", "2018-11-29", "2018-11-30"],
+        ["s1", Math.random(), Math.random(), Math.random()],
+        ["s2", Math.random(), Math.random(), Math.random()]
+      ]
+    });
+  };
+
   render() {
-    let data=this.state.dados_empresa.financials;
-    if(data!==undefined && page_init===0){
-      replaceKeys(data)
-      data.map(function(item,i){
-        data_test.push(createData(data[i].Revenue,data[i].RevenueGrowth,data[i].OperatingExpenses,data[i].EBITDAMargin,data[i].EBITDA))
-        // console.log(data[i])
-      })
-      page_init++;
-      // console.log(data_test[0].revenue);
-    }
     return (
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <div>
-            <HighchartsReact 
-              highcharts={Highcharts}
-              options={options}
-            />
-          </div>
-        </Grid>
-      </Grid>
+      <div>
+        <HighchartsReact
+          constructorType={"chart"}
+          highcharts={Highcharts}
+          options={{
+            boost: {
+              seriesThreshold: 1
+            },
+            chart: {
+              animation: false,
+              height: 400,
+              type: "line",
+              width: 800,
+              zoomType: "x"
+            },
+            credits: {
+              enabled: false
+            },
+            data: {
+              columns: this.state.data
+            },
+            legend: {
+              enabled: false
+            },
+            series: [
+              {
+                boostThreshold: 1,
+                colorIndex: 1,
+                lineWidth: 1,
+                type: "line",
+                zIndex: 2
+              },
+              {
+                boostThreshold: 1,
+                colorIndex: 0,
+                lineWidth: 1,
+                type: "line",
+                zIndex: 1
+              }
+            ],
+            title: {
+              text: "Demo"
+            },
+            tooltip: {
+              shared: true,
+              xDateFormat: "%Y-%m-%d"
+            },
+            xAxis: {
+              crosshair: true,
+              labels: {
+                enabled: false
+              },
+              tickColor: "#00000",
+              tickLength: 20,
+              title: {
+                text: undefined
+              },
+              type: "datetime"
+            },
+            yAxis: {
+              title: {
+                text: undefined
+              }
+            }
+          }}
+        />
+      </div>
     );
   }
 }
+
+// render(<App />, document.getElementById("root"));
