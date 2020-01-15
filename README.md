@@ -20,6 +20,8 @@ React:
     npm install axios --save
     npm install highcharts-react-official --save
     npm install highcharts-react --save
+    npm react-highcharts --save
+    npm highcharts --save
 ```
 ## Acessar a aplicação
 Para acessar a aplicação basta entrar no endereço:

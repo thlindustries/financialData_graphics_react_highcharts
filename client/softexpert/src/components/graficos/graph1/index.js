@@ -1,43 +1,114 @@
-import React,{Component} from "react";
-import { render } from "react-dom";
-// Import Highcharts
-import Highcharts from "highcharts";
-import drilldown from "highcharts/modules/drilldown.js";
-import HighchartsReact from "highcharts-react-official";
+
+// //API ---->   https://financialmodelingprep.com/api/v3/financials/income-statement/{{SIMBOLO DA EMPRESA}}
+//-----------------------------------------------------------------------------------------------------
+
+import React, { Component } from 'react';
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
+import Grid from '@material-ui/core/Grid';
 
 //API
 import axios from 'axios';
 
-
-drilldown(Highcharts);
-
-
+// import { Container } from './styles';
 const data_test=[];
 let page_init = 0;
 
-function createData(revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, conolidated_income) {
-    return { revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, conolidated_income };
+const options = {
+  title: {
+    text: 'Grafico teste',
+  },
+  // data: [data_test[0].revenue,data_test[1].revenue,data_test[2].revenue,data_test[3].revenue,data_test[4].revenue,data_test[5].revenue,data_test[6].revenue,data_test[7].revenue,data_test[8].revenue,data_test[9].revenue,data_test[10].revenue,data_test[11].revenue]
+  series: [{
+    name:'Receita',
+    data:(function () {
+      // generate an array of random data
+      var data = [],
+        time = (new Date()).getTime(),
+        i;
+
+      for (i = -19; i <= 0; i += 1) {
+        data.push({
+          x: time + i * 1000,
+          y: Math.random()
+        });
+      }
+      return data;
+    }()), 
+    //   [18274, 24916, 57177, 15112, 97031, 119931, 18111, 5948]
+    // }
+    //,{
+    //   name:'Crescimento da receita',
+    //   data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+    // }, {
+    // name:'Despesas operacionais',
+    //   data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+    // }, {
+    //   name:'Margem EBITDA',
+    //     data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+    // }, {
+    //   name:'EBITDA',
+    //     data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+    // }, {
+    //   name:'Renda Consolidada',
+    //     data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+    }
+  ],
+  legend: {
+    layout: 'vertical',
+    align: 'right',
+    verticalAlign: 'middle'
+  },
+  responsive: {
+    rules: [{
+        condition: {
+            maxWidth: 500
+        },
+        chartOptions: {
+            legend: {
+                layout: 'horizontal',
+                align: 'center',
+                verticalAlign: 'bottom'
+            }
+        }
+    }]
+  },
+  yAxis: {
+    title: {
+        text: 'Valores'
+    }
+  },
+  xAxis: {
+    accessibility: {
+        rangeDescription: [2010,2011,2012]
+    }
+  },
 }
+
+function createData(revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, conolidated_income) {
+  return { revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, conolidated_income };
+}
+
 function replaceKeys(object) {
-    Object.keys(object).forEach(function (key) {
-        var newKey = key.replace(/\s+/g, '');
-        if (object[key] && typeof object[key] === 'object') {
-            replaceKeys(object[key]);
-        }
-        if (key !== newKey) {
-            object[newKey] = object[key];
-            delete object[key];
-        }
-    });
+  Object.keys(object).forEach(function (key) {
+      var newKey = key.replace(/\s+/g, '');
+      if (object[key] && typeof object[key] === 'object') {
+          replaceKeys(object[key]);
+      }
+      if (key !== newKey) {
+          object[newKey] = object[key];
+          delete object[key];
+      }
+  });
 }
 
 export default class graph1 extends Component {
   constructor(props) {
     super(props);
-    this.allowChartUpdate = true;
-    this.state = {
-        dados_empresa:[]
-    };
+
+    this.state={
+      dados_empresa:[]
+    }
 
     axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/AAPL').then(resultado=>{
       this.setState({
@@ -45,17 +116,6 @@ export default class graph1 extends Component {
       })
     })
   }
-  componentDidMount() {
-    const chart = this.refs.chartComponent.chart;
-  }
-
-  categoryClicked() {
-    this.allowChartUpdate = false;
-    this.setState({
-      value: 2
-    });
-  }
-
   render() {
     let data=this.state.dados_empresa.financials;
     if(data!==undefined && page_init===0){
@@ -65,56 +125,20 @@ export default class graph1 extends Component {
         // console.log(data[i])
       })
       page_init++;
+      options.series[0].data[0]=68274;
       console.log(data_test[0].revenue);
     }
     return (
-      <HighchartsReact
-        allowChartUpdate={this.allowChartUpdate}
-        ref={"chartComponent"}
-        highcharts={Highcharts}
-        options={{
-          chart: {
-            type: "line"
-          },
-          series: [
-            {
-              events: {
-                click: e => {
-                  this.categoryClicked(e);
-                }
-              },
-                // name:'Receita',
-                // data: [18274, 24916, 57177, 15112, 97031, 119931, 18111, 5948],
-              data: [
-                {
-                  name: "Chrome",
-                  y: 62.74,
-                  drilldown: "Chrome"
-                },
-                {
-                  name: "Firefox",
-                  y: 10.57,
-                  drilldown: "Firefox"
-                }
-              ]
-            }
-          ],
-          drilldown: {
-            series: [
-              {
-                name: "Chrome",
-                id: "Chrome",
-                data: [["v65.0", 0.1], ["v64.0", 1.3]]
-              },
-              {
-                name: "Firefox",
-                id: "Firefox",
-                data: [["v58.0", 1.02], ["v57.0", 7.36]]
-              }
-            ]
-          }
-        }}
-      />
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <div>
+            <HighchartsReact 
+              highcharts={Highcharts}
+              options={options}
+            />
+          </div>
+        </Grid>
+      </Grid>
     );
   }
 }
