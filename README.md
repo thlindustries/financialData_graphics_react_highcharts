@@ -1,9 +1,17 @@
 Iniciando o desafio
+## Instalação
+
+Use o npm [npm](https://www.npmjs.com/) para instalar as dependências.
+
+```bash
+cd /client/softexpert
+npm install
+npm start
+```
 
 
-
-Pacotes utilizados:
-
+## Pacotes utilizados
+```bash
 React:
     npm install react-router-dom --save
     npm install @material-ui/core --save
@@ -12,13 +20,6 @@ React:
     npm install axios --save
     npm install highcharts-react-official --save
     npm install highcharts-react --save
-
-
-
-Para inicar o projeto abra o terminal e digite:
-
---->  cd /client/softexpert
---->  npm install
---->  npm start
+```
 
 
