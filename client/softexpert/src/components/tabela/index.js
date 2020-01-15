@@ -21,9 +21,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import Fab from '@material-ui/core/Fab';
 
-//rotas
-import {Switch,Route} from 'react-router-dom'
-import Graficos from '../../views/graficos';
+let load_page=0;
 
 
 //styles
@@ -131,11 +129,12 @@ export default function CustomPaginationActionsTable(dados) {
   };
   let data=dados.dados.dados.dados.symbolsList
 
-  if(data!==undefined){
+  if(data!==undefined && load_page===0){
     data.map(function(item,i){
         rows.push(createData(data[i].name,data[i].symbol,data[i].price))
     })
     rows.sort((a, b) => (a.simbolo < b.simbolo ? -1 : 1));
+    load_page=1;
   }
   return (
     <TableContainer component={Paper}>

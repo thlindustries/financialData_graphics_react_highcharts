@@ -120,7 +120,7 @@ export default class graph1 extends Component {
               highcharts={Highcharts}
               options={{
                 title: {
-                  text: 'Informações sobre a empresa',
+                  text: 'Informações sobre a empresa '+simbolo_empresa,
                 },
                 series:this.state.series,
                 legend: {
