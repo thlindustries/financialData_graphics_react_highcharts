@@ -3,12 +3,13 @@
 //-----------------------------------------------------------------------------------------------------
 
 import React, { Component } from 'react';
-import Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 import Grid from '@material-ui/core/Grid';
 
 //API
 import axios from 'axios';
+
 
 // import { Container } from './styles';
 const data_test=[];
@@ -18,40 +19,24 @@ const options = {
   title: {
     text: 'Grafico teste',
   },
-  // data: [data_test[0].revenue,data_test[1].revenue,data_test[2].revenue,data_test[3].revenue,data_test[4].revenue,data_test[5].revenue,data_test[6].revenue,data_test[7].revenue,data_test[8].revenue,data_test[9].revenue,data_test[10].revenue,data_test[11].revenue]
   series: [{
     name:'Receita',
-    data:(function () {
-      // generate an array of random data
-      var data = [],
-        time = (new Date()).getTime(),
-        i;
-
-      for (i = -19; i <= 0; i += 1) {
-        data.push({
-          x: time + i * 1000,
-          y: Math.random()
-        });
-      }
-      return data;
-    }()), 
-    //   [18274, 24916, 57177, 15112, 97031, 119931, 18111, 5948]
-    // }
-    //,{
-    //   name:'Crescimento da receita',
-    //   data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-    // }, {
-    // name:'Despesas operacionais',
-    //   data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-    // }, {
-    //   name:'Margem EBITDA',
-    //     data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-    // }, {
-    //   name:'EBITDA',
-    //     data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-    // }, {
-    //   name:'Renda Consolidada',
-    //     data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+    data: []
+    },{
+      name:'Crescimento da receita',
+      data: []
+    }, {
+    name:'Despesas operacionais',
+      data: []
+    }, {
+      name:'Margem EBITDA',
+        data: []
+    }, {
+      name:'EBITDA',
+        data: []
+    }, {
+      name:'Renda Consolidada',
+        data: []
     }
   ],
   legend: {
@@ -85,8 +70,8 @@ const options = {
   },
 }
 
-function createData(revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, conolidated_income) {
-  return { revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, conolidated_income };
+function createData(revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, consolidated_income) {
+  return { revenue, revenue_growth, operational_expenses, ebitda_margin, ebitda, consolidated_income };
 }
 
 function replaceKeys(object) {
@@ -121,12 +106,28 @@ export default class graph1 extends Component {
     if(data!==undefined && page_init===0){
       replaceKeys(data)
       data.map(function(item,i){
-        data_test.push(createData(data[i].Revenue,data[i].RevenueGrowth,data[i].OperatingExpenses,data[i].EBITDAMargin,data[i].EBITDA))
+        data_test.push(createData(data[i].Revenue,data[i].RevenueGrowth,data[i].OperatingExpenses,data[i].EBITDAMargin,data[i].EBITDA,data[i].ConsolidatedIncome))
         // console.log(data[i])
       })
       page_init++;
-      options.series[0].data[0]=68274;
-      console.log(data_test[0].revenue);
+      //options.series[0].data=68274;
+      
+      // options.series.map(function(item,i){
+      //   console.log(options.series[i].data)
+      // })
+      data_test.map(function(item,i){
+        // console.log(data_test[i].revenue)
+        options.series[0].data.push(parseFloat(data_test[i].revenue))
+        options.series[1].data.push(parseFloat(data_test[i].revenue_growth))
+        options.series[2].data.push(parseFloat(data_test[i].operational_expenses))
+        options.series[3].data.push(parseFloat(data_test[i].ebitda_margin))
+        options.series[4].data.push(parseFloat(data_test[i].ebitda))
+        options.series[5].data.push(parseFloat(data_test[i].consolidated_income))
+        // console.log(data_test[i].ebtida)
+      })
+      // for(let k=0;k<6;k++){
+      //   console.log(options.series[k].data)
+      // }
     }
     return (
       <Grid container spacing={2}>
