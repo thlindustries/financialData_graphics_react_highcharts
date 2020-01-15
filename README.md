@@ -10,3 +10,6 @@ React:
     npm install @material-ui/icons --save
     npm install styled-components --save
     npm install axios --save
+    npm install highcharts-react-official --save
+
+

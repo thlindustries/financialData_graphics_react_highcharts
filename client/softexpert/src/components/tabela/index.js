@@ -22,6 +22,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import Fab from '@material-ui/core/Fab';
 
+
+
 const useStyles1 = makeStyles(theme => ({
   root: {
     flexShrink: 0,
@@ -154,7 +156,7 @@ export default function CustomPaginationActionsTable(dados) {
             : rows
           ).map(row => (//
               <TableRow key={row.name}><TableCell component="th" scope="row">
-                <Checkbox/>
+                <Checkbox id={'check'+row.simbolo}/>
               </TableCell>
               <TableCell component="th" scope="row">
                 {row.name}
@@ -162,7 +164,9 @@ export default function CustomPaginationActionsTable(dados) {
               <TableCell align="right">{row.simbolo}</TableCell>
               <TableCell align="right">{row.cotacao}</TableCell>
               <TableCell align="right">
-                <Fab size ='small'color="secondary" aria-label="add" id={row.simbolo} onClick={() => { console.log('Voce apertou o botao '+row.simbolo); }}>
+                <Fab size ='small'color="secondary" aria-label="add" id={'button'+row.simbolo} onClick={() => { 
+                    console.log('Voce apertou o botao '+row.simbolo); 
+                  }}>
                   <PlayCircleOutlineIcon />
                 </Fab>
               </TableCell>
