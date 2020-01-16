@@ -6,7 +6,7 @@ import Tabela from '../../components/tabela'
 export default function principal_menu(dados) {
   return (
     <div>
-  <Tabela dados={dados}></Tabela>
+      <Tabela dados={dados}></Tabela>
     </div>
   );
 }

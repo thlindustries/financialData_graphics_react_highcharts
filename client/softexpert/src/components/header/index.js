@@ -1,3 +1,4 @@
+//Imports do material-Ui
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -107,10 +108,6 @@ export default function MiniDrawer(dados) {
     setOpen(false);
   };
 
-  //recebendo dados da API indicada
-  // if(dados!=null){
-  //   console.log(dados.dados.stockList);
-  // }
   return (
     <Container>
       <div className={classes.root}>
@@ -181,7 +178,6 @@ export default function MiniDrawer(dados) {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>
-            {/* <Route path='/principal' render={(props) => <Principal dados={dados}/>}/> */}
             <Route path='/principal/' render={(props) => <Principal dados={dados}/>}/>
             <Route path='/graficos/:id' component={Graficos}/>
           </Switch>

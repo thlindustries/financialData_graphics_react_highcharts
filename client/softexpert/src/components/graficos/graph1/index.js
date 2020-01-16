@@ -29,11 +29,6 @@ function createData(revenue, revenue_growth, operational_expenses, ebitda_margin
 function splitString(stringToSplit, separator) {
   var arrayOfStrings = stringToSplit.split(separator);
   simbolo_empresa=arrayOfStrings[4]
-  // console.log(arrayOfStrings)
-
-  // console.log('A string original é: "' + stringToSplit + '"');
-  // console.log('O separador é: "' + separator + '"');
-  // console.log('O array tem ' + arrayOfStrings.length + ' elementos: ' + arrayOfStrings.join(' / '));
 }
 
 //função que remove os espaços das Keys do JSON retornado pela API
@@ -52,6 +47,8 @@ function replaceKeys(object) {
 
 export default class graph1 extends Component {
   constructor(props) {
+
+    //logica para pegar o simbolo da empresa que veio da tabela de empresas na página principal
     let link = window.location.href
     splitString(link,'/')
     console.log(simbolo_empresa)
@@ -60,9 +57,12 @@ export default class graph1 extends Component {
     this.state={
       dados_empresa:[]
     }
+    //Chamando a API via Axios
     axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+simbolo_empresa).then(resultado=>{
       this.setState({
         dados_empresa:resultado.data,
+
+        //Criando uma variável Series e salvando no state da página 
         series: [
           {
             name:'Receita',
@@ -95,6 +95,8 @@ export default class graph1 extends Component {
 
   render() {
     let data=this.state.dados_empresa.financials;
+
+    //Condição para evitar que a página carregue as informações mais de uma vez e duplique os dados no array data_API
     if(data!==undefined && page_init===0){
       
       replaceKeys(data)

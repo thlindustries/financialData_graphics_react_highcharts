@@ -1,3 +1,4 @@
+//Imports do Material-Ui
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
@@ -17,7 +18,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
 import Checkbox from '@material-ui/core/Checkbox';
 
-//icons
+//icones
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import Fab from '@material-ui/core/Fab';
 
@@ -63,6 +64,7 @@ function TablePaginationActions(props) {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 
+  //Elemento da paginação
   return (
     <div className={classes.root}>
       <IconButton
@@ -104,7 +106,9 @@ TablePaginationActions.propTypes = {
 function createData(name, simbolo, cotacao) {
   return { name, simbolo, cotacao };
 }
-const rows = [].sort((a, b) => (a.simbolo < b.simbolo ? -1 : 1));
+
+//Criação de uma lista que armazenará as linhas da tabela
+const rows = []
 
 const useStyles2 = makeStyles({
   table: {
@@ -129,6 +133,7 @@ export default function CustomPaginationActionsTable(dados) {
   };
   let data=dados.dados.dados.dados.symbolsList
 
+  //Condição para que a página nao carregue as informações 2 vezes e não duplique os itens da tabela ao clicar pra avançar pagina na mesma
   if(data!==undefined && load_page===0){
     data.map(function(item,i){
         rows.push(createData(data[i].name,data[i].symbol,data[i].price))
