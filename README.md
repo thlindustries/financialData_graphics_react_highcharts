@@ -1,4 +1,28 @@
 Iniciando o desafio
+
+## Pacotes utilizados
+```bash
+React:
+    react-router-dom
+    install @material-ui/core 
+    install @material-ui/icons
+    install styled-components 
+    install axios 
+    install highcharts-react-official 
+    install highcharts-react 
+    react-highcharts 
+    highcharts 
+```
+
+## Qual é o meu progresso?
+```bash
+Tabela dinâmica com informações sobre a empresa     #OK
+
+Gŕafico dinâmico com dados sobre a empresa selecionada na tabela     #OK
+
+Comparação entre empresas selecionadas     #Desenvolvendo...
+
+```
 ## Instalação
 
 Use o [npm](https://www.npmjs.com/) para instalar as dependências.
@@ -9,20 +33,6 @@ npm install
 npm start
 ```
 
-
-## Pacotes utilizados
-```bash
-React:
-    npm install react-router-dom --save
-    npm install @material-ui/core --save
-    npm install @material-ui/icons --save
-    npm install styled-components --save
-    npm install axios --save
-    npm install highcharts-react-official --save
-    npm install highcharts-react --save
-    npm react-highcharts --save
-    npm highcharts --save
-```
 ## Acessar a aplicação
 Para acessar a aplicação basta entrar no endereço:
 
