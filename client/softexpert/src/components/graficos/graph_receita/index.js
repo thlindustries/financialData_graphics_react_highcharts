@@ -36,7 +36,7 @@ function replaceKeys(object) {
 
 export default class GraphReceita extends Component {
   constructor(props) {
-    simbolo=props.simbolo
+    simbolo=props.simbolo[0]
     // console.log(props.simbolo)
 
     super(props);
@@ -44,14 +44,14 @@ export default class GraphReceita extends Component {
       dados_empresa:[]
     }
     //Chamando a API via Axios
-    axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/AAPL').then(resultado=>{
+    axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+simbolo).then(resultado=>{
       this.setState({
         dados_empresa:resultado.data,
 
         //Criando uma variável Series e salvando no state da página 
         series: [
           {
-            name:'Receita AAPL',
+            name:'Receita '+simbolo,
             data:lista_receita
             // data:[5,4,3,2,1]
           },
@@ -84,7 +84,7 @@ export default class GraphReceita extends Component {
               highcharts={Highcharts}
               options={{
                 title: {
-                  text: 'Receita da empresa AAPL',
+                  text: 'Receita da empresa '+simbolo,
                 },
                 series:this.state.series,
                 legend: {

@@ -12,17 +12,12 @@ import axios from 'axios';
 //variaveis para manipular o grafico
 const data_API=[];
 let page_init = 0;
-let lista_renda_consolidada=[]
+let lista_renda_consolidada=[];
+let simbolo;
 
 //função para criar o array object (data_API) com as informações da API
 function createData(ConsolidatedIncome) {
   return { ConsolidatedIncome};
-}
-
-//função para obter o simbolo da empresa da URL
-function splitString(stringToSplit, separator) {
-  var arrayOfStrings = stringToSplit.split(separator);
-  //simbolo_empresa=arrayOfStrings[4]
 }
 
 //função que remove os espaços das Keys do JSON retornado pela API
@@ -41,25 +36,23 @@ function replaceKeys(object) {
 
 export default class GraphMargemConsolidatedIncome extends Component {
   constructor(props) {
-
-    //logica para pegar o simbolo da empresa que veio da tabela de empresas na página principal
-    let link = window.location.href
-    // splitString(link,'/')
-    // console.log(simbolo_empresa)
     
+    simbolo=props.simbolo[0];
+    // console.log(simbolo);
+
     super(props);
     this.state={
       dados_empresa:[]
     }
     //Chamando a API via Axios
-    axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/AAPL').then(resultado=>{
+    axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+simbolo).then(resultado=>{
       this.setState({
         dados_empresa:resultado.data,
 
         //Criando uma variável Series e salvando no state da página 
         series: [
           {
-            name:'Renda consolidada AAPL',
+            name:'Renda consolidada '+simbolo,
             data:lista_renda_consolidada
             // data:[5,4,3,2,1]
           },
@@ -93,7 +86,7 @@ export default class GraphMargemConsolidatedIncome extends Component {
               highcharts={Highcharts}
               options={{
                 title: {
-                  text: 'Renda consolidada da empresa AAPL',
+                  text: 'Renda consolidada da empresa '+simbolo,
                 },
                 series:this.state.series,
                 legend: {

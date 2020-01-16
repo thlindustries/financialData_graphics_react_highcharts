@@ -47,42 +47,42 @@ export default class comparacao extends Component {
                 <Grid item x={6}>
                     <Grid container justify="center" spacing={1}>
                         <div>
-                            <GraphReceita simbolo={simbolo_empresa_filtrado[0]}/>
+                            <GraphReceita simbolo={simbolo_empresa_filtrado}/>
                         </div>
                     </Grid>
                 </Grid>
                 <Grid item x={6}>
                     <Grid container justify="center" spacing={1}>
                         <div>
-                            <GraphCrescReceita/>
+                            <GraphCrescReceita simbolo={simbolo_empresa_filtrado}/>
                         </div>
                     </Grid>
                 </Grid>
                 <Grid item x={6}>
                     <Grid container justify="center" spacing={1}>
                         <div>
-                            <GraphDespOperacion/>
+                            <GraphDespOperacion simbolo={simbolo_empresa_filtrado}/>
                         </div>
                     </Grid>
                 </Grid>
                 <Grid item x={6}>
                     <Grid container justify="center" spacing={1}>
                         <div>
-                            <GraphMargemEbitda/>
+                            <GraphMargemEbitda simbolo={simbolo_empresa_filtrado}/>
                         </div>
                     </Grid>
                 </Grid>
                 <Grid item x={6}>
                     <Grid container justify="center" spacing={1}>
                         <div>
-                            <GraphEbitda/>
+                            <GraphEbitda simbolo={simbolo_empresa_filtrado}/>
                         </div>
                     </Grid>
                 </Grid>
                 <Grid item x={6}>
                     <Grid container justify="center" spacing={1}>
                         <div>
-                            <GraphRendaConsolidada/>
+                            <GraphRendaConsolidada simbolo={simbolo_empresa_filtrado}/>
                         </div>
                     </Grid>
                 </Grid>
