@@ -17,12 +17,16 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TableHead from '@material-ui/core/TableHead';
 import Checkbox from '@material-ui/core/Checkbox';
+import Fab from '@material-ui/core/Fab';
+import Grid from '@material-ui/core/Grid';
 
 //icones
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import Fab from '@material-ui/core/Fab';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 
 let load_page=0;
+let opcao=0;
+let lista_pesquisa=[]
 
 
 //styles
@@ -50,18 +54,37 @@ function TablePaginationActions(props) {
 
   const handleFirstPageButtonClick = event => {
     onChangePage(event, 0);
+    for(let x=0;x<lista_pesquisa.length;x++){
+      // document.getElementById('check'+lista_pesquisa[x]).checked=true
+      console.log('check'+lista_pesquisa[x])
+    }
   };
 
   const handleBackButtonClick = event => {
     onChangePage(event, page - 1);
+    for(let x=0;x<lista_pesquisa.length;x++){
+      
+      if(document.getElementById('check'+lista_pesquisa[x])!=null){
+        document.getElementById('check'+lista_pesquisa[x]).checked=true
+      }
+      console.log('check'+lista_pesquisa[x])
+    }
   };
 
   const handleNextButtonClick = event => {
     onChangePage(event, page + 1);
+    for(let x=0;x<lista_pesquisa.length;x++){
+      // document.getElementById('check'+lista_pesquisa[x]).checked=true
+      console.log('check'+lista_pesquisa[x])
+    }
   };
 
   const handleLastPageButtonClick = event => {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    for(let x=0;x<lista_pesquisa.length;x++){
+      // document.getElementById('check'+lista_pesquisa[x]).checked=true
+      console.log('check'+lista_pesquisa[x])
+    }
   };
 
   //Elemento da paginação
@@ -113,6 +136,7 @@ const rows = []
 const useStyles2 = makeStyles({
   table: {
     minWidth: 500,
+    height:250,
   },
 });
 
@@ -126,6 +150,25 @@ export default function CustomPaginationActionsTable(dados) {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+
+  //Observer do checkbox
+  const checkChange=(id,option)=>{
+    if(document.getElementById('check'+id).checked===true){
+      console.log("Empresa "+id+ " esta selecionada")
+      // console.log("Empresa "+id+ " adicionada a pesquisa");
+      // opcao++;
+      lista_pesquisa.push(id)
+    }
+    else{
+      console.log("Empresa "+id+ " foi removida");
+      // opcao=0;
+      for( var y = lista_pesquisa.length; y--;){
+        if ( lista_pesquisa[y] === id) lista_pesquisa.splice(y, 1);
+      }
+    }
+
+    
+  }
 
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -142,66 +185,86 @@ export default function CustomPaginationActionsTable(dados) {
     load_page=1;
   }
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="custom pagination table">
-      <TableHead>
-          <TableRow>
-            <StyledTableCell align="left">Comparar</StyledTableCell>
-            <StyledTableCell>Nome da empresa</StyledTableCell>
-            <StyledTableCell align="right">Símbolo</StyledTableCell>
-            <StyledTableCell align="right">Cotação atual</StyledTableCell>
-            <StyledTableCell align="right">Graficos</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map(row => (//
-              <TableRow key={row.name}><TableCell component="th" scope="row">
-                <Checkbox id={'check'+row.simbolo}/>
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.simbolo}</TableCell>
-              <TableCell align="right">{row.cotacao}</TableCell>
-              <TableCell align="right">
-                <Fab size ='small'color="secondary" aria-label="add" id={'button'+row.simbolo} onClick={() => { 
-                    // console.log('Voce apertou o botao '+row.simbolo); 
-                    window.location.href = "/graficos/"+row.simbolo;
-                  }}>
-                  <PlayCircleOutlineIcon />
-                </Fab>
-              </TableCell>
-            </TableRow>
-          ))}
+    <Grid >
+      <Grid item xs={12}>
+        <div style={{height:100}}>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="custom pagination table">
+            <TableHead>
+                <TableRow>
+                  <StyledTableCell align="left">Comparar</StyledTableCell>
+                  <StyledTableCell>Nome da empresa</StyledTableCell>
+                  <StyledTableCell align="right">Símbolo</StyledTableCell>
+                  <StyledTableCell align="right">Cotação atual</StyledTableCell>
+                  <StyledTableCell align="right">Graficos</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {(rowsPerPage > 0
+                  ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  : rows
+                ).map(row => (//
+                    <TableRow key={row.name}><TableCell component="th" scope="row">
+                      <Checkbox  id={'check'+row.simbolo} onClick={()=>{
+                        checkChange(row.simbolo,opcao)
+                        console.log(lista_pesquisa)
+                      }}/>
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.simbolo}</TableCell>
+                    <TableCell align="right">{row.cotacao}</TableCell>
+                    <TableCell align="right">
+                      <Fab size ='small'color="secondary" aria-label="add" id={'button'+row.simbolo} onClick={() => { 
+                          // console.log('Voce apertou o botao '+row.simbolo); 
+                          window.location.href = "/graficos/"+row.simbolo;
+                        }}>
+                        <PlayCircleOutlineIcon />
+                      </Fab>
+                    </TableCell>
+                  </TableRow>
+                ))}
+                
 
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={3}
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: { 'aria-label': 'rows per page' },
-                native: true,
-              }}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 15 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                    colSpan={3}
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: { 'aria-label': 'rows per page' },
+                      native: true,
+                    }}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+          <br/>
+          <Fab style={{marginLeft:'42%'}}color="primary" variant="extended" onClick={() => { 
+                console.log('Voce apertou o botao para comparar empresas'); 
+                // window.location.href = "/graficos/"+row.simbolo;
+              }} >
+            <CompareArrowsIcon className={classes.extendedIcon} />
+            Comparar Empresas
+          </Fab>
+        </div>
+        
+      </Grid>
+    </Grid>
+    
   );
 }

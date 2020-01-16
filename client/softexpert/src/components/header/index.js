@@ -31,6 +31,7 @@ import BarChartIcon from '@material-ui/icons/BarChart'
 //Rotas
 import Principal from '../../views/principal_menu';
 import Graficos from '../../views/graficos';
+import Comparar from '../../views/comparacao';
 
 const drawerWidth = 240;
 
@@ -180,6 +181,7 @@ export default function MiniDrawer(dados) {
           <Switch>
             <Route path='/principal/' render={(props) => <Principal dados={dados}/>}/>
             <Route path='/graficos/:id' component={Graficos}/>
+            <Route path='/comparar/' component={Comparar}/>
           </Switch>
         </main>
       </div>
