@@ -10,16 +10,44 @@ import GraphEbitda from '../../components/graficos/graph_ebitda'
 import GraphRendaConsolidada from '../../components/graficos/graph_renda_consolidada'
 
 import { Container } from './styles';
+let simbolo_empresa=[]
+let simbolo_empresa_filtrado=[]
+let load_page=0
+
+function splitString(stringToSplit, separator) {
+    var arrayOfStrings = stringToSplit.split(separator);
+    simbolo_empresa=arrayOfStrings
+    for(let i=0;i<arrayOfStrings.lenght;i++){
+        simbolo_empresa.push(arrayOfStrings[i])
+    }
+
+    load_page++
+    
+}
 
 export default class comparacao extends Component {
-  render() {
+    render() {
+    //logica para pegar os simbolos das empresas que vieram da tabela de empresas na página principal
+    let link = window.location.href
+    
+    if(load_page===0){
+        splitString(link,'/')
+        simbolo_empresa.map(function(item,i){
+            if(i>=4&&simbolo_empresa[i]!=''){
+                // console.log(simbolo_empresa[i])
+                simbolo_empresa_filtrado.push(simbolo_empresa[i])
+            }
+        })
+        // console.log(simbolo_empresa_filtrado)
+    }
+    
     return (
         <Container>
             <Grid container spacing={1}>
                 <Grid item x={6}>
                     <Grid container justify="center" spacing={1}>
                         <div>
-                            <GraphReceita/>
+                            <GraphReceita simbolo={simbolo_empresa_filtrado[0]}/>
                         </div>
                     </Grid>
                 </Grid>

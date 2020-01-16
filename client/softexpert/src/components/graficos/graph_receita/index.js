@@ -13,16 +13,11 @@ import axios from 'axios';
 const data_API=[];
 let page_init = 0;
 let lista_receita=[]
+let simbolo
 
 //função para criar o array object (data_API) com as informações da API
 function createData(revenue) {
   return { revenue};
-}
-
-//função para obter o simbolo da empresa da URL
-function splitString(stringToSplit, separator) {
-  var arrayOfStrings = stringToSplit.split(separator);
-  //simbolo_empresa=arrayOfStrings[4]
 }
 
 //função que remove os espaços das Keys do JSON retornado pela API
@@ -41,12 +36,9 @@ function replaceKeys(object) {
 
 export default class GraphReceita extends Component {
   constructor(props) {
+    simbolo=props.simbolo
+    // console.log(props.simbolo)
 
-    //logica para pegar o simbolo da empresa que veio da tabela de empresas na página principal
-    let link = window.location.href
-    // splitString(link,'/')
-    // console.log(simbolo_empresa)
-    
     super(props);
     this.state={
       dados_empresa:[]

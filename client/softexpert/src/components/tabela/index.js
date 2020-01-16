@@ -255,8 +255,13 @@ export default function CustomPaginationActionsTable(dados) {
           </TableContainer>
           <br/>
           <Fab style={{marginLeft:'42%'}}color="primary" variant="extended" onClick={() => { 
-                console.log('Voce apertou o botao para comparar empresas'); 
-                // window.location.href = "/graficos/"+row.simbolo;
+                console.log('Voce apertou o botao para comparar as empresas '+ lista_pesquisa); 
+                let url=''
+                for(let i=0;i<lista_pesquisa.length;i++){
+                  url=url+lista_pesquisa[i]+'/'
+                }
+                //console.log(url)
+                window.location.href = "/comparar/"+url;
               }} >
             <CompareArrowsIcon className={classes.extendedIcon} />
             Comparar Empresas
