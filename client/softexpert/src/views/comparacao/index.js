@@ -33,7 +33,7 @@ export default class comparacao extends Component {
     if(load_page===0){
         splitString(link,'/')
         simbolo_empresa.map(function(item,i){
-            if(i>=4&&simbolo_empresa[i]!=''){
+            if(i>=4&&simbolo_empresa[i]!==''){
                 // console.log(simbolo_empresa[i])
                 simbolo_empresa_filtrado.push(simbolo_empresa[i])
             }
