@@ -52,7 +52,7 @@ export default class GraphDespesasOperacionais extends Component {
         //Criando uma variável Series e salvando no state da página 
         series: [
           {
-            name:'Dados operacionais '+simbolo,
+            name:'Despesas operacionais '+simbolo,
             data:lista_despesas_operacionais
             // data:[5,4,3,2,1]
           },
@@ -86,7 +86,7 @@ export default class GraphDespesasOperacionais extends Component {
               highcharts={Highcharts}
               options={{
                 title: {
-                  text: 'Dados operacionais da empresa '+simbolo,
+                  text: 'Despesas operacionais da empresa '+simbolo,
                 },
                 series:this.state.series,
                 legend: {

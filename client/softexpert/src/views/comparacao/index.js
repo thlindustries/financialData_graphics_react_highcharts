@@ -39,6 +39,9 @@ export default class comparacao extends Component {
             }
         })
         // console.log(simbolo_empresa_filtrado)
+        for(let i=0;i<simbolo_empresa_filtrado.length;i++){
+            // console.log(simbolo_empresa_filtrado[i])
+        }
     }
     
     return (
