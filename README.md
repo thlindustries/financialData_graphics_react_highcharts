@@ -30,7 +30,13 @@ npm start
 
 ## Como navegar pela aplicação?
 
-![alt text](/imgs_documentation/botaoinfo)
+1--> Para consultar os dados de apenas uma empresa basta clicar no botão que existe no final da linha respectiva à empresa que deseja visualizar
+
+![alt text](https://i.imgur.com/9BYrAw1.png)
+
+2--> Para comparar dados entre empresas basta marcar os checkbox's e clicar em comparar empresas
+
+![alt text](https://i.imgur.com/dHE7Dv4.png)
 
 
 ## Acessar a aplicação
