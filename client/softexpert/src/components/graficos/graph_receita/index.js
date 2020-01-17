@@ -14,15 +14,12 @@ let listas_receita=[];
 let simbolo;
 let todos_simbolos;
 
+let teste=[]
+
 let lista_de_datas=[];
-let maior_ano
+let menor_ano
 let maior_lista_anos=0;
 let data_API=[];
-
-//função para criar o array object (data_API) com as informações da API
-function createData(revenue) {
-  return { revenue};
-}
 
 //função que remove os espaços das Keys do JSON retornado pela API
 function replaceKeys(object) {
@@ -46,7 +43,6 @@ export default class GraphReceita extends Component {
     //Simbolos das empresas que sao passados via props do componente
     simbolo=props.simbolo[0]
     todos_simbolos=props.simbolo
-    
     super(props);
     this.state={
       dados_empresa:[]
@@ -55,6 +51,8 @@ export default class GraphReceita extends Component {
     todos_simbolos.map(function(item,i){
         axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+todos_simbolos[i]).then(resultado=>{
         data_API.unshift(resultado.data.financials)
+
+        teste.unshift(todos_simbolos[i])
       })
     })
     axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+simbolo).then(resultado=>{
@@ -93,21 +91,17 @@ export default class GraphReceita extends Component {
         if(data_API[y]!==undefined){
           for(let i=0;i<data_API[y].length;i++){
             lista_aux.unshift(parseFloat(data_API[y][i].Revenue))
-            lista_date_aux.unshift(data_API[y][i].date)
-  
-            let split=lista_date_aux[i].split('-')
-            let ano=parseInt(split[0])
+            lista_date_aux.unshift(data_API[y][i].date)            
           }
         }
         
-      console.log(data_API[y])
         //laço que cuida do vetor de datas
         for(let j=0;j<lista_date_aux.length;j++){
           let split=lista_date_aux[j].split('-')
           let ano=parseInt(split[0])
           lista_date_aux2.unshift(ano)
         }
-        let obj = {name:todos_simbolos[y],data:lista_aux,ano:lista_date_aux2}
+        let obj = {name:teste[y],data:lista_aux,ano:lista_date_aux2}
         let obj_ano={date:lista_date_aux2}
         listas_receita.unshift(obj);
         lista_de_datas.unshift(obj_ano)
@@ -115,24 +109,24 @@ export default class GraphReceita extends Component {
         lista_aux=[]
       }
       
-      //Laço responsavel por descobrir o indice da maior lista de anos para montar o eixo X
+      //Laço responsavel por descobrir o indice da menor lista de anos para montar o eixo X
       let aux_tamanhos=[]
       lista_de_datas.map(function(item,i){
         if(lista_de_datas[i].date.length!==undefined){
-          aux_tamanhos.unshift(lista_de_datas[i].date[0])
+          aux_tamanhos.unshift(lista_de_datas[i].date[lista_de_datas[i].date.length-1])
         }
       })
-      maior_ano=Math.max(...aux_tamanhos.sort((a, b) => a - b))
+      menor_ano=Math.min(...aux_tamanhos.sort((a, b) => a - b))
       aux_tamanhos.map(function(item,i){
-        if(aux_tamanhos[i]===maior_ano){
+        if(aux_tamanhos[i]===menor_ano){
           maior_lista_anos=i    
         }
       })
-      
+
       //----------------Função que move as linhas do grafico pra frente para o dado bater com seu respectivo ano-------------------------------------------
       listas_receita.map(function(item,i){
-        if(listas_receita[i].ano[0]<maior_ano){
-          let diference = (maior_ano-listas_receita[i].ano[0])
+        if(listas_receita[i].ano[lista_de_datas[i].date.length-1]>menor_ano){
+          let diference = (listas_receita[i].ano[lista_de_datas[i].date.length-1]-menor_ano)
           for(let y=0;y<diference;y++){
             listas_receita[i].data.unshift(null)
           }
@@ -143,7 +137,7 @@ export default class GraphReceita extends Component {
 
       //Setando o eixo X com os anos da maior lista de anos
       this.state.categories=lista_de_datas[maior_lista_anos].date;
-      this.state.categories.unshift(maior_ano)
+      this.state.categories.unshift(menor_ano)
     
       page_init++;
     }

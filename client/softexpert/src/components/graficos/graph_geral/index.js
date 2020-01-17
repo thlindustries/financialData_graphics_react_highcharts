@@ -106,12 +106,12 @@ export default class graph1 extends Component {
       page_init++;
 
       data_API.map(function(item,i){
-        lista_receita.push(parseFloat(data_API[i].revenue))
-        lista_cresciment_receita.push(parseFloat(data_API[i].revenue_growth))
-        lista_despesas_operacionais.push(parseFloat(data_API[i].operational_expenses))
-        lista_margem_ebitda.push(parseFloat(data_API[i].ebitda_margin))
-        lista_ebitda.push(parseFloat(data_API[i].ebitda))
-        lista_renda_consolidada.push(parseFloat(data_API[i].consolidated_income))
+        lista_receita.unshift(parseFloat(data_API[i].revenue))
+        lista_cresciment_receita.unshift(parseFloat(data_API[i].revenue_growth))
+        lista_despesas_operacionais.unshift(parseFloat(data_API[i].operational_expenses))
+        lista_margem_ebitda.unshift(parseFloat(data_API[i].ebitda_margin))
+        lista_ebitda.unshift(parseFloat(data_API[i].ebitda))
+        lista_renda_consolidada.unshift(parseFloat(data_API[i].consolidated_income))
       })
     }
     return (
@@ -150,9 +150,7 @@ export default class graph1 extends Component {
                   }
                 },
                 xAxis: {
-                  accessibility: {
-                    rangeDescription: [2010,2011,2012]
-                  }
+                  categories:[2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],
                 }
               }}
             />

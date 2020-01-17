@@ -16,19 +16,7 @@ React:
 
 ## Qual é o meu progresso?
 ```bash
-Tabela dinâmica com informações sobre a empresa     #OK
-
-Gŕafico dinâmico com dados sobre a empresa selecionada na tabela     #OK
-
-```
-```bash
-Comparação entre empresas selecionadas     #Desenvolvendo...
-
-.View dos gráficos para a comparação já está montada e carregando os dados em gráficos dinamicante a partir do simbolo enviado pela url. #OK
-
-
-##   Falta apenas deslocar a linha do gráfico para o dado bater com seu respectivo ano !   ##
-
+100%
 ```
 ## Instalação
 
@@ -39,6 +27,14 @@ cd /client/softexpert
 npm install
 npm start
 ```
+
+## Como navegar pela aplicação?
+
+
+```bash
+
+```
+
 
 ## Acessar a aplicação
 Para acessar a aplicação basta entrar no endereço:

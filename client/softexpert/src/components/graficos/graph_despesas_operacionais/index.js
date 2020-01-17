@@ -14,23 +14,25 @@ let lista_despesas_operacionais=[];
 let simbolo;
 let todos_simbolos;
 
+let teste=[]
+
 let lista_de_datas=[];
-let maior_ano
+let menor_ano
 let maior_lista_anos=0;
 let data_API=[];
 
 //função que remove os espaços das Keys do JSON retornado pela API
 function replaceKeys(object) {
-  if(object!==undefined){
-    Object.keys(object).forEach(function (key) {
-      var newKey = key.replace(/\s+/g, '');
-      if (object[key] && typeof object[key] === 'object') {
-          replaceKeys(object[key]);
-      }
-      if (key !== newKey) {
-          object[newKey] = object[key];
-          delete object[key];
-      }
+    if(object!==undefined){
+      Object.keys(object).forEach(function (key) {
+        var newKey = key.replace(/\s+/g, '');
+        if (object[key] && typeof object[key] === 'object') {
+            replaceKeys(object[key]);
+        }
+        if (key !== newKey) {
+            object[newKey] = object[key];
+            delete object[key];
+        }
     });
   }
 }
@@ -41,7 +43,6 @@ export default class GraphReceita extends Component {
     //Simbolos das empresas que sao passados via props do componente
     simbolo=props.simbolo[0]
     todos_simbolos=props.simbolo
-    
     super(props);
     this.state={
       dados_empresa:[]
@@ -49,7 +50,9 @@ export default class GraphReceita extends Component {
     //Chamando a API via Axios
     todos_simbolos.map(function(item,i){
         axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+todos_simbolos[i]).then(resultado=>{
-        data_API.push(resultado.data.financials)
+        data_API.unshift(resultado.data.financials)
+
+        teste.unshift(todos_simbolos[i])
       })
     })
     axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+simbolo).then(resultado=>{
@@ -71,7 +74,9 @@ export default class GraphReceita extends Component {
       
       //funçao que remove os espacos das keys do array
       data_API.map(function(item,i){
-        replaceKeys(data_API[i])
+        if(data_API[i]!==undefined){
+          replaceKeys(data_API[i])
+        }
       })
 
       //laço responsavel por criar os objetos que serao enviados para o grafico && responsavel por criar uma lista de datas para o posicionamento dos dados no grafico
@@ -85,46 +90,45 @@ export default class GraphReceita extends Component {
         //laço que cuida do vetor de dados
         if(data_API[y]!==undefined){
           for(let i=0;i<data_API[y].length;i++){
-            lista_aux.push(parseFloat(data_API[y][i].OperatingExpenses))
-            lista_date_aux.push(data_API[y][i].date)
-  
-            let split=lista_date_aux[i].split('-')
-            let ano=parseInt(split[0])
+            lista_aux.unshift(parseFloat(data_API[y][i].OperatingExpenses))
+            lista_date_aux.unshift(data_API[y][i].date)            
           }
         }
+        // console.log(data_API[y])
         
         //laço que cuida do vetor de datas
         for(let j=0;j<lista_date_aux.length;j++){
           let split=lista_date_aux[j].split('-')
           let ano=parseInt(split[0])
-          lista_date_aux2.push(ano)
+          lista_date_aux2.unshift(ano)
         }
-        let obj = {name:todos_simbolos[y],data:lista_aux,ano:lista_date_aux2}
+        let obj = {name:teste[y],data:lista_aux,ano:lista_date_aux2}
         let obj_ano={date:lista_date_aux2}
-        lista_despesas_operacionais.push(obj);
-        lista_de_datas.push(obj_ano)
+        lista_despesas_operacionais.unshift(obj);
+        lista_de_datas.unshift(obj_ano)
         lista_date_aux2=[]
         lista_aux=[]
       }
       
-      //Laço responsavel por descobrir o indice da maior lista de anos para montar o eixo X
+      //Laço responsavel por descobrir o indice da menor lista de anos para montar o eixo X
       let aux_tamanhos=[]
       lista_de_datas.map(function(item,i){
         if(lista_de_datas[i].date.length!==undefined){
-          aux_tamanhos.push(lista_de_datas[i].date[0])
+          aux_tamanhos.unshift(lista_de_datas[i].date[lista_de_datas[i].date.length-1])
         }
       })
-      maior_ano=Math.max(...aux_tamanhos.sort((a, b) => a - b))
+      menor_ano=Math.min(...aux_tamanhos.sort((a, b) => a - b))
       aux_tamanhos.map(function(item,i){
-        if(aux_tamanhos[i]===maior_ano){
+        if(aux_tamanhos[i]===menor_ano){
           maior_lista_anos=i    
         }
       })
+
       
       //----------------Função que move as linhas do grafico pra frente para o dado bater com seu respectivo ano-------------------------------------------
       lista_despesas_operacionais.map(function(item,i){
-        if(lista_despesas_operacionais[i].ano[0]<maior_ano){
-          let diference = (maior_ano-lista_despesas_operacionais[i].ano[0])
+        if(lista_despesas_operacionais[i].ano[lista_de_datas[i].date.length-1]>menor_ano){
+          let diference = (lista_despesas_operacionais[i].ano[lista_de_datas[i].date.length-1]-menor_ano)
           for(let y=0;y<diference;y++){
             lista_despesas_operacionais[i].data.unshift(null)
           }
@@ -135,7 +139,7 @@ export default class GraphReceita extends Component {
 
       //Setando o eixo X com os anos da maior lista de anos
       this.state.categories=lista_de_datas[maior_lista_anos].date;
-      this.state.categories.unshift(maior_ano)
+      this.state.categories.unshift(menor_ano)
     
       page_init++;
     }
@@ -175,7 +179,8 @@ export default class GraphReceita extends Component {
                   }
                 },
                 xAxis: {
-                  categories:this.state.categories,
+                  categories:[2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019]
+                  // this.state.categories,
                 }
               }}
             />

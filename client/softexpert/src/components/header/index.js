@@ -18,7 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 //rotas
-import {Switch,Route} from 'react-router-dom'
+import {Switch,Route,Redirect} from 'react-router-dom'
 
 
 //style
@@ -26,7 +26,6 @@ import { Container } from './styles';
 
 //Ícones
 import DashboardIcon from '@material-ui/icons/Dashboard'
-import BarChartIcon from '@material-ui/icons/BarChart'
 
 //Rotas
 import Principal from '../../views/principal_menu';
@@ -164,21 +163,13 @@ export default function MiniDrawer(dados) {
                   Home
               </ListItemText>
             </ListItem>
-
-            <ListItem button component="a" href='/graficos'>
-              <ListItemIcon>
-                  <BarChartIcon />
-              </ListItemIcon>
-              <ListItemText>
-                  Gráficos
-              </ListItemText>
-            </ListItem>
           </List>
           <Divider />
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>
+            <Redirect exact from="/" to="principal" />
             <Route path='/principal/' render={(props) => <Principal dados={dados}/>}/>
             <Route path='/graficos/:id' component={Graficos}/>
             <Route path='/comparar/' component={Comparar}/>
