@@ -26,7 +26,8 @@ function createData(RevenueGrowth) {
 
 //função que remove os espaços das Keys do JSON retornado pela API
 function replaceKeys(object) {
-  Object.keys(object).forEach(function (key) {
+  if(object!==undefined){
+    Object.keys(object).forEach(function (key) {
       var newKey = key.replace(/\s+/g, '');
       if (object[key] && typeof object[key] === 'object') {
           replaceKeys(object[key]);
@@ -35,7 +36,8 @@ function replaceKeys(object) {
           object[newKey] = object[key];
           delete object[key];
       }
-  });
+    });
+  }
 }
 
 export default class GraphReceita extends Component {
@@ -86,12 +88,14 @@ export default class GraphReceita extends Component {
         let lista_date_aux2=[]
 
         //laço que cuida do vetor de dados
-        for(let i=0;i<data_API[y].length;i++){
-          lista_aux.push(parseFloat(data_API[y][i].RevenueGrowth))
-          lista_date_aux.push(data_API[y][i].date)
+        if(data_API[y]!==undefined){
+          for(let i=0;i<data_API[y].length;i++){
+            lista_aux.push(parseFloat(data_API[y][i].RevenueGrowth))
+            lista_date_aux.push(data_API[y][i].date)
 
-          let split=lista_date_aux[i].split('-')
-          let ano=parseInt(split[0])
+            let split=lista_date_aux[i].split('-')
+            let ano=parseInt(split[0])
+          }
         }
 
 

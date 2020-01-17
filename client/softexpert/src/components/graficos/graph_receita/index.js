@@ -26,16 +26,18 @@ function createData(revenue) {
 
 //função que remove os espaços das Keys do JSON retornado pela API
 function replaceKeys(object) {
-  Object.keys(object).forEach(function (key) {
-      var newKey = key.replace(/\s+/g, '');
-      if (object[key] && typeof object[key] === 'object') {
-          replaceKeys(object[key]);
-      }
-      if (key !== newKey) {
-          object[newKey] = object[key];
-          delete object[key];
-      }
-  });
+    if(object!==undefined){
+      Object.keys(object).forEach(function (key) {
+        var newKey = key.replace(/\s+/g, '');
+        if (object[key] && typeof object[key] === 'object') {
+            replaceKeys(object[key]);
+        }
+        if (key !== newKey) {
+            object[newKey] = object[key];
+            delete object[key];
+        }
+    });
+  }
 }
 
 export default class GraphReceita extends Component {
@@ -74,7 +76,9 @@ export default class GraphReceita extends Component {
       
       //funçao que remove os espacos das keys do array
       data_API.map(function(item,i){
-        replaceKeys(data_API[i])
+        if(data_API[i]!==undefined){
+          replaceKeys(data_API[i])
+        }
       })
 
       //laço responsavel por criar os objetos que serao enviados para o grafico && responsavel por criar uma lista de datas para o posicionamento dos dados no grafico
@@ -86,18 +90,16 @@ export default class GraphReceita extends Component {
         let lista_date_aux2=[]
 
         //laço que cuida do vetor de dados
-        for(let i=0;i<data_API[y].length;i++){
-          lista_aux.push(parseFloat(data_API[y][i].Revenue))
-          lista_date_aux.push(data_API[y][i].date)
-
-          let split=lista_date_aux[i].split('-')
-          let ano=parseInt(split[0])
+        if(data_API[y]!==undefined){
+          for(let i=0;i<data_API[y].length;i++){
+            lista_aux.push(parseFloat(data_API[y][i].Revenue))
+            lista_date_aux.push(data_API[y][i].date)
+  
+            let split=lista_date_aux[i].split('-')
+            let ano=parseInt(split[0])
+          }
         }
-
-
-        //console.log(data_API[y])
-
-
+        
         //laço que cuida do vetor de datas
         for(let j=0;j<lista_date_aux.length;j++){
           let split=lista_date_aux[j].split('-')
