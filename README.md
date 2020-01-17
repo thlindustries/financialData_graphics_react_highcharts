@@ -44,6 +44,7 @@ npm start
 ![alt text](https://i.imgur.com/Lzispqf.png)
 
 ### **3.1. Leia o *ALERT*, remova da *URL* o(s) Símbolo(s) das empresas que o *ALERT* informou e carregue a página novamente !**
+![alt text](https://i.imgur.com/c5PP1W2.png)
 ![alt text](https://i.imgur.com/aGcewog.png)
 ![alt text](https://i.imgur.com/nZn0KVh.png)
 
