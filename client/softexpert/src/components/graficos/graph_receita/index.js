@@ -15,6 +15,7 @@ let simbolo;
 let todos_simbolos;
 
 let lista_de_datas=[];
+let maior_ano
 let maior_lista_anos=0;
 let data_API=[];
 
@@ -93,6 +94,10 @@ export default class GraphReceita extends Component {
           let ano=parseInt(split[0])
         }
 
+
+        //console.log(data_API[y])
+
+
         //laço que cuida do vetor de datas
         for(let j=0;j<lista_date_aux.length;j++){
           let split=lista_date_aux[j].split('-')
@@ -108,29 +113,34 @@ export default class GraphReceita extends Component {
       }
       
       //Laço responsavel por descobrir o indice da maior lista de anos para montar o eixo X
-      for(let y=0;y<lista_de_datas.length;y++){
-        if(lista_de_datas[y].date.lengh>maior_lista_anos){
-          maior_lista_anos=y;
+      let aux_tamanhos=[]
+      lista_de_datas.map(function(item,i){
+        if(lista_de_datas[i].date.length!==undefined){
+          aux_tamanhos.push(lista_de_datas[i].date[0])
         }
-      }
-      //----------------Função que move as linha do grafico pra frente ...Não funfou :( ------------------------------------------------------------------
-      // let diference
-      // for(let i=0;i<lista_de_datas.length;i++){
-      //   if(i!=maior_lista_anos){
-      //     diference= (listas_receita[maior_lista_anos].ano[0]-listas_receita[i].ano[0])
-      //     //console.log(listas_receita[maior_lista_anos].ano[0]);
-      //     //console.log(listas_receita[i].ano[0]);
-      //     //console.log(diference);
-      //   }
-      //   for(let y=0;y<diference;y++){
-      //     listas_receita[i].data.push(2500)
-      //   }
-      // }
+      })
+      maior_ano=Math.max(...aux_tamanhos.sort((a, b) => a - b))
+      aux_tamanhos.map(function(item,i){
+        if(aux_tamanhos[i]===maior_ano){
+          maior_lista_anos=i    
+        }
+      })
+      
+      //----------------Função que move as linhas do grafico pra frente para o dado bater com seu respectivo ano-------------------------------------------
+      listas_receita.map(function(item,i){
+        if(listas_receita[i].ano[0]<maior_ano){
+          let diference = (maior_ano-listas_receita[i].ano[0])
+          for(let y=0;y<diference;y++){
+            listas_receita[i].data.unshift(null)
+          }
+        }
+      })
       //---------------------------------------------------------------------------------------------------------------------------------------------------
 
 
       //Setando o eixo X com os anos da maior lista de anos
       this.state.categories=lista_de_datas[maior_lista_anos].date;
+      this.state.categories.unshift(maior_ano)
     
       page_init++;
     }

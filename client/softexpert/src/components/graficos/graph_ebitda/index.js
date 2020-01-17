@@ -1,6 +1,4 @@
 
-// //API ---->   https://financialmodelingprep.com/api/v3/financials/income-statement/{{SIMBOLO DA EMPRESA}}
-//-----------------------------------------------------------------------------------------------------
 import React, { Component } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -10,15 +8,16 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 
 //variaveis para manipular o grafico
-const data_API=[];
 let page_init = 0;
+
 let lista_ebitda=[];
 let simbolo;
+let todos_simbolos;
 
-//função para criar o array object (data_API) com as informações da API
-function createData(EBITDA) {
-  return { EBITDA};
-}
+let lista_de_datas=[];
+let maior_ano
+let maior_lista_anos=0;
+let data_API=[];
 
 //função que remove os espaços das Keys do JSON retornado pela API
 function replaceKeys(object) {
@@ -34,48 +33,111 @@ function replaceKeys(object) {
   });
 }
 
-export default class GraphMargemEbitda extends Component {
+export default class GraphReceita extends Component {
   constructor(props) {
-    simbolo=props.simbolo[0];
-    // console.log(simbolo);
+
+    //Simbolos das empresas que sao passados via props do componente
+    simbolo=props.simbolo[0]
+    todos_simbolos=props.simbolo
     
     super(props);
     this.state={
       dados_empresa:[]
     }
     //Chamando a API via Axios
-    axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+simbolo).then(resultado=>{
-      this.setState({
-        dados_empresa:resultado.data,
-
-        //Criando uma variável Series e salvando no state da página 
-        series: [
-          {
-            name:'EBITDA '+simbolo,
-            data:lista_ebitda
-            // data:[5,4,3,2,1]
-          },
-        ]
+    todos_simbolos.map(function(item,i){
+        axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+todos_simbolos[i]).then(resultado=>{
+        data_API.push(resultado.data.financials)
       })
     })
+    axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+simbolo).then(resultado=>{
+      this.setState({
+        //Criando uma variável Series && Categories e salvando no state da página 
+        dados_empresa:resultado.data,
+        series: lista_ebitda,
+        categories:lista_de_datas[maior_lista_anos],
+      })
+    })    
   }
 
   render() {
+    //Variável auxiliar que armazena os dados da API
     let data=this.state.dados_empresa.financials;
 
     //Condição para evitar que a página carregue as informações mais de uma vez e duplique os dados no array data_API
     if(data!==undefined && page_init===0){
       
-      replaceKeys(data)
-      data.map(function(item,i){
-        data_API.push(createData(data[i].EBITDA,))
-      })
-      page_init++;
-
+      //funçao que remove os espacos das keys do array
       data_API.map(function(item,i){
-        lista_ebitda.push(parseFloat(data_API[i].EBITDA))
+        replaceKeys(data_API[i])
       })
-      // console.log(data)
+
+      //laço responsavel por criar os objetos que serao enviados para o grafico && responsavel por criar uma lista de datas para o posicionamento dos dados no grafico
+      for(let y=0;y<data_API.length;y++){
+
+        //listas auxiliares
+        let lista_aux=[]
+        let lista_date_aux=[]
+        let lista_date_aux2=[]
+
+        //laço que cuida do vetor de dados
+        for(let i=0;i<data_API[y].length;i++){
+          lista_aux.push(parseFloat(data_API[y][i].EBITDA))
+          lista_date_aux.push(data_API[y][i].date)
+
+          let split=lista_date_aux[i].split('-')
+          let ano=parseInt(split[0])
+        }
+
+
+        //console.log(data_API[y])
+
+
+        //laço que cuida do vetor de datas
+        for(let j=0;j<lista_date_aux.length;j++){
+          let split=lista_date_aux[j].split('-')
+          let ano=parseInt(split[0])
+          lista_date_aux2.push(ano)
+        }
+        let obj = {name:todos_simbolos[y],data:lista_aux,ano:lista_date_aux2}
+        let obj_ano={date:lista_date_aux2}
+        lista_ebitda.push(obj);
+        lista_de_datas.push(obj_ano)
+        lista_date_aux2=[]
+        lista_aux=[]
+      }
+      
+      //Laço responsavel por descobrir o indice da maior lista de anos para montar o eixo X
+      let aux_tamanhos=[]
+      lista_de_datas.map(function(item,i){
+        if(lista_de_datas[i].date.length!==undefined){
+          aux_tamanhos.push(lista_de_datas[i].date[0])
+        }
+      })
+      maior_ano=Math.max(...aux_tamanhos.sort((a, b) => a - b))
+      aux_tamanhos.map(function(item,i){
+        if(aux_tamanhos[i]===maior_ano){
+          maior_lista_anos=i    
+        }
+      })
+      
+      //----------------Função que move as linhas do grafico pra frente para o dado bater com seu respectivo ano-------------------------------------------
+      lista_ebitda.map(function(item,i){
+        if(lista_ebitda[i].ano[0]<maior_ano){
+          let diference = (maior_ano-lista_ebitda[i].ano[0])
+          for(let y=0;y<diference;y++){
+            lista_ebitda[i].data.unshift(null)
+          }
+        }
+      })
+      //---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+      //Setando o eixo X com os anos da maior lista de anos
+      this.state.categories=lista_de_datas[maior_lista_anos].date;
+      this.state.categories.unshift(maior_ano)
+    
+      page_init++;
     }
     return (
       <Grid container spacing={2}>
@@ -85,7 +147,7 @@ export default class GraphMargemEbitda extends Component {
               highcharts={Highcharts}
               options={{
                 title: {
-                  text: 'EBITDA da empresa '+simbolo,
+                  text: 'EBITDA das empresas '+todos_simbolos,
                 },
                 series:this.state.series,
                 legend: {
@@ -113,9 +175,7 @@ export default class GraphMargemEbitda extends Component {
                   }
                 },
                 xAxis: {
-                  accessibility: {
-                    rangeDescription: [2010,2011,2012]
-                  }
+                  categories:this.state.categories,
                 }
               }}
             />
