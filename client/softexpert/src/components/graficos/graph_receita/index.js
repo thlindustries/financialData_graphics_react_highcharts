@@ -54,7 +54,7 @@ export default class GraphReceita extends Component {
     //Chamando a API via Axios
     todos_simbolos.map(function(item,i){
         axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+todos_simbolos[i]).then(resultado=>{
-        data_API.push(resultado.data.financials)
+        data_API.unshift(resultado.data.financials)
       })
     })
     axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+simbolo).then(resultado=>{
@@ -92,24 +92,25 @@ export default class GraphReceita extends Component {
         //laço que cuida do vetor de dados
         if(data_API[y]!==undefined){
           for(let i=0;i<data_API[y].length;i++){
-            lista_aux.push(parseFloat(data_API[y][i].Revenue))
-            lista_date_aux.push(data_API[y][i].date)
+            lista_aux.unshift(parseFloat(data_API[y][i].Revenue))
+            lista_date_aux.unshift(data_API[y][i].date)
   
             let split=lista_date_aux[i].split('-')
             let ano=parseInt(split[0])
           }
         }
         
+      console.log(data_API[y])
         //laço que cuida do vetor de datas
         for(let j=0;j<lista_date_aux.length;j++){
           let split=lista_date_aux[j].split('-')
           let ano=parseInt(split[0])
-          lista_date_aux2.push(ano)
+          lista_date_aux2.unshift(ano)
         }
         let obj = {name:todos_simbolos[y],data:lista_aux,ano:lista_date_aux2}
         let obj_ano={date:lista_date_aux2}
-        listas_receita.push(obj);
-        lista_de_datas.push(obj_ano)
+        listas_receita.unshift(obj);
+        lista_de_datas.unshift(obj_ano)
         lista_date_aux2=[]
         lista_aux=[]
       }
@@ -118,7 +119,7 @@ export default class GraphReceita extends Component {
       let aux_tamanhos=[]
       lista_de_datas.map(function(item,i){
         if(lista_de_datas[i].date.length!==undefined){
-          aux_tamanhos.push(lista_de_datas[i].date[0])
+          aux_tamanhos.unshift(lista_de_datas[i].date[0])
         }
       })
       maior_ano=Math.max(...aux_tamanhos.sort((a, b) => a - b))
@@ -182,7 +183,8 @@ export default class GraphReceita extends Component {
                   }
                 },
                 xAxis: {
-                  categories:this.state.categories,
+                  categories:[2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019]
+                  // this.state.categories,
                 }
               }}
             />
