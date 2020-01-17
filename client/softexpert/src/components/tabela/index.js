@@ -55,7 +55,12 @@ function TablePaginationActions(props) {
   const handleFirstPageButtonClick = event => {
     onChangePage(event, 0);
     for(let x=0;x<lista_pesquisa.length;x++){
-      // document.getElementById('check'+lista_pesquisa[x]).checked=true
+      setTimeout(function(){ 
+        if(document.getElementById('check'+lista_pesquisa[x])!=null){
+          document.getElementById('check'+lista_pesquisa[x]).click()
+        }
+      }, 100);
+      
       console.log('check'+lista_pesquisa[x])
     }
   };
@@ -63,10 +68,12 @@ function TablePaginationActions(props) {
   const handleBackButtonClick = event => {
     onChangePage(event, page - 1);
     for(let x=0;x<lista_pesquisa.length;x++){
+      setTimeout(function(){ 
+        if(document.getElementById('check'+lista_pesquisa[x])!=null){
+          document.getElementById('check'+lista_pesquisa[x]).click()
+        }
+      }, 100);
       
-      if(document.getElementById('check'+lista_pesquisa[x])!=null){
-        document.getElementById('check'+lista_pesquisa[x]).checked=true
-      }
       console.log('check'+lista_pesquisa[x])
     }
   };
@@ -74,7 +81,12 @@ function TablePaginationActions(props) {
   const handleNextButtonClick = event => {
     onChangePage(event, page + 1);
     for(let x=0;x<lista_pesquisa.length;x++){
-      // document.getElementById('check'+lista_pesquisa[x]).checked=true
+      setTimeout(function(){ 
+        if(document.getElementById('check'+lista_pesquisa[x])!=null){
+          document.getElementById('check'+lista_pesquisa[x]).click()
+        }
+      }, 100);
+      
       console.log('check'+lista_pesquisa[x])
     }
   };
@@ -82,7 +94,12 @@ function TablePaginationActions(props) {
   const handleLastPageButtonClick = event => {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
     for(let x=0;x<lista_pesquisa.length;x++){
-      // document.getElementById('check'+lista_pesquisa[x]).checked=true
+      setTimeout(function(){ 
+        if(document.getElementById('check'+lista_pesquisa[x])!=null){
+          document.getElementById('check'+lista_pesquisa[x]).click()
+        }
+      }, 100);
+      
       console.log('check'+lista_pesquisa[x])
     }
   };
@@ -157,7 +174,10 @@ export default function CustomPaginationActionsTable(dados) {
       console.log("Empresa "+id+ " esta selecionada")
       // console.log("Empresa "+id+ " adicionada a pesquisa");
       // opcao++;
-      lista_pesquisa.push(id)
+      if(!lista_pesquisa.includes(id)){
+        lista_pesquisa.push(id)
+      }
+      
     }
     else{
       console.log("Empresa "+id+ " foi removida");
@@ -256,12 +276,13 @@ export default function CustomPaginationActionsTable(dados) {
           <br/>
           <Fab style={{marginLeft:'42%'}}color="primary" variant="extended" onClick={() => { 
                 console.log('Voce apertou o botao para comparar as empresas '+ lista_pesquisa); 
-                let url=''
-                for(let i=0;i<lista_pesquisa.length;i++){
-                  url=url+lista_pesquisa[i]+'/'
-                }
-                //console.log(url)
-                window.location.href = "/comparar/"+url;
+                // let url=''
+                // for(let i=0;i<lista_pesquisa.length;i++){
+                //   url=url+lista_pesquisa[i]+'/'
+                // }
+                // //console.log(url)
+                // window.location.href = "/comparar/"+url;
+                document.getElementById('checkA').click()
               }} >
             <CompareArrowsIcon className={classes.extendedIcon} />
             Comparar Empresas

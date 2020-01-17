@@ -96,7 +96,7 @@ export default class GraphReceita extends Component {
 
           let split=lista_date_aux[i].split('-')
           let ano=parseInt(split[0])
-          // console.log(ano)
+          console.log(ano)
           // while(ano!=2019){
           //   lista_date_aux.unshift(null);
           //   ano++
@@ -109,21 +109,40 @@ export default class GraphReceita extends Component {
           let ano=parseInt(split[0])
           lista_date_aux2.push(ano)
         }
-        let obj = {name:todos_simbolos[y],data:lista_aux}
+        let obj = {name:todos_simbolos[y],data:lista_aux,ano:lista_date_aux2}
         let obj_ano={date:lista_date_aux2}
         listas_receita.push(obj);
         lista_de_datas.push(obj_ano)
         lista_date_aux2=[]
         lista_aux=[]
       }
-      console.log(lista_de_datas)
+      
+      //console.log(lista_de_datas)
+
       for(let y=0;y<lista_de_datas.length;y++){
-        if(lista_de_datas[y].length>maior_lista_anos){
-          maior_lista_anos=lista_de_datas[y]
-        };
+        if(lista_de_datas[y].date.lengh>maior_lista_anos){
+          maior_lista_anos=y;
+        }
       }
-      console.log(maior_lista_anos)
-      console.log(lista_de_datas[maior_lista_anos].date)
+      
+      let diference
+      for(let i=0;i<lista_de_datas.length;i++){
+        if(i!=maior_lista_anos){
+          diference= (listas_receita[maior_lista_anos].ano[0]-listas_receita[i].ano[0])
+          console.log(listas_receita[maior_lista_anos].ano[0]);
+          console.log(listas_receita[i].ano[0]);
+          console.log(diference);
+        }
+        for(let y=0;y<diference;y++){
+          listas_receita[i].data.push(2500)
+        }
+      }
+      console.log(listas_receita)
+      //console.log(this.state.series)
+      
+      //console.log('maior ano--> '+maior_lista_anos)
+      //console.log(lista_de_datas[maior_lista_anos].date)
+      this.state.categories=lista_de_datas[maior_lista_anos].date;
       
       // console.log(listas_receita)
       page_init++;
@@ -164,10 +183,7 @@ export default class GraphReceita extends Component {
                   }
                 },
                 xAxis: {
-                  caegories:this.state.categories,
-                  accessibility: {
-                    rangeDescription: [2010,2011,2012]
-                  }
+                  categories:this.state.categories,
                 }
               }}
             />
