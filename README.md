@@ -30,10 +30,7 @@ npm start
 
 ## Como navegar pela aplicação?
 
-
-```bash
-
-```
+![alt text](/imgs_documentation/botaoinfo)
 
 
 ## Acessar a aplicação
