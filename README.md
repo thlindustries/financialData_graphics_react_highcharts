@@ -4,12 +4,12 @@ Iniciando o desafio
 ```bash
 React:
     react-router-dom
-    install @material-ui/core 
-    install @material-ui/icons
-    install styled-components 
-    install axios 
-    install highcharts-react-official 
-    install highcharts-react 
+    @material-ui/core 
+    @material-ui/icons
+    styled-components 
+    axios 
+    highcharts-react-official 
+    highcharts-react 
     react-highcharts 
     highcharts 
 ```
