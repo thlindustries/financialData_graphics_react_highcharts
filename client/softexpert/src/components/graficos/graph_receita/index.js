@@ -1,6 +1,4 @@
 
-// //API ---->   https://financialmodelingprep.com/api/v3/financials/income-statement/{{SIMBOLO DA EMPRESA}}
-//-----------------------------------------------------------------------------------------------------
 import React, { Component } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -41,27 +39,25 @@ function replaceKeys(object) {
 
 export default class GraphReceita extends Component {
   constructor(props) {
+
+    //Simbolos das empresas que sao passados via props do componente
     simbolo=props.simbolo[0]
     todos_simbolos=props.simbolo
-    //console.log(todos_simbolos)
-    // console.log(props.simbolo)
-
+    
     super(props);
     this.state={
       dados_empresa:[]
     }
-
+    //Chamando a API via Axios
     todos_simbolos.map(function(item,i){
-        //Chamando a API via Axios
         axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+todos_simbolos[i]).then(resultado=>{
-        // console.log(resultado.data.financials)
         data_API.push(resultado.data.financials)
       })
     })
     axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+simbolo).then(resultado=>{
       this.setState({
+        //Criando uma variável Series && Categories e salvando no state da página 
         dados_empresa:resultado.data,
-        //Criando uma variável Series e salvando no state da página 
         series: listas_receita,
         categories:lista_de_datas[maior_lista_anos],
       })
@@ -78,7 +74,6 @@ export default class GraphReceita extends Component {
       //funçao que remove os espacos das keys do array
       data_API.map(function(item,i){
         replaceKeys(data_API[i])
-        //console.log(data_API[i])
       })
 
       //laço responsavel por criar os objetos que serao enviados para o grafico && responsavel por criar uma lista de datas para o posicionamento dos dados no grafico
@@ -96,13 +91,8 @@ export default class GraphReceita extends Component {
 
           let split=lista_date_aux[i].split('-')
           let ano=parseInt(split[0])
-          console.log(ano)
-          // while(ano!=2019){
-          //   lista_date_aux.unshift(null);
-          //   ano++
-          // }
         }
-        console.log(data_API[y])
+
         //laço que cuida do vetor de datas
         for(let j=0;j<lista_date_aux.length;j++){
           let split=lista_date_aux[j].split('-')
@@ -117,34 +107,31 @@ export default class GraphReceita extends Component {
         lista_aux=[]
       }
       
-      //console.log(lista_de_datas)
-
+      //Laço responsavel por descobrir o indice da maior lista de anos para montar o eixo X
       for(let y=0;y<lista_de_datas.length;y++){
         if(lista_de_datas[y].date.lengh>maior_lista_anos){
           maior_lista_anos=y;
         }
       }
-      
-      let diference
-      for(let i=0;i<lista_de_datas.length;i++){
-        if(i!=maior_lista_anos){
-          diference= (listas_receita[maior_lista_anos].ano[0]-listas_receita[i].ano[0])
-          console.log(listas_receita[maior_lista_anos].ano[0]);
-          console.log(listas_receita[i].ano[0]);
-          console.log(diference);
-        }
-        for(let y=0;y<diference;y++){
-          listas_receita[i].data.push(2500)
-        }
-      }
-      console.log(listas_receita)
-      //console.log(this.state.series)
-      
-      //console.log('maior ano--> '+maior_lista_anos)
-      //console.log(lista_de_datas[maior_lista_anos].date)
+      //----------------Função que move as linha do grafico pra frente ...Não funfou :( ------------------------------------------------------------------
+      // let diference
+      // for(let i=0;i<lista_de_datas.length;i++){
+      //   if(i!=maior_lista_anos){
+      //     diference= (listas_receita[maior_lista_anos].ano[0]-listas_receita[i].ano[0])
+      //     //console.log(listas_receita[maior_lista_anos].ano[0]);
+      //     //console.log(listas_receita[i].ano[0]);
+      //     //console.log(diference);
+      //   }
+      //   for(let y=0;y<diference;y++){
+      //     listas_receita[i].data.push(2500)
+      //   }
+      // }
+      //---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+      //Setando o eixo X com os anos da maior lista de anos
       this.state.categories=lista_de_datas[maior_lista_anos].date;
-      
-      // console.log(listas_receita)
+    
       page_init++;
     }
     return (
