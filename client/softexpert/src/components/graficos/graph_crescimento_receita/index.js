@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 
 //variaveis para manipular o grafico
-let page_init = 0;
+var page_init = 0;
 
 let lista_cresciment_receita=[];
 let simbolo;
@@ -20,6 +20,8 @@ let lista_de_datas=[];
 let menor_ano
 let maior_lista_anos=0;
 let data_API=[];
+
+let url=''
 
 //função que remove os espaços das Keys do JSON retornado pela API
 function replaceKeys(object) {
@@ -50,14 +52,19 @@ export default class GraphReceita extends Component {
     //Chamando a API via Axios
     todos_simbolos.map(function(item,i){
         axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+todos_simbolos[i]).then(resultado=>{
-        data_API.unshift(resultado.data.financials)
 
-        teste.unshift(todos_simbolos[i])
+          if(resultado.data.financials===undefined){
+            alert('A API retornou um objeto vazio da empresa '+todos_simbolos[i]+' !, Por favor remova o simbolo da URL')
+          }
+          else{
+            data_API.unshift(resultado.data.financials)
+            teste.unshift(todos_simbolos[i])
+          }
       })
     })
     axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+simbolo).then(resultado=>{
       this.setState({
-        //Criando uma variável Series && Categories e salvando no state da página 
+        //Criando uma variável Series && Categories e salvando no state da página
         dados_empresa:resultado.data,
         series: lista_cresciment_receita,
         categories:lista_de_datas[maior_lista_anos],
@@ -68,7 +75,8 @@ export default class GraphReceita extends Component {
   render() {
     //Variável auxiliar que armazena os dados da API
     let data=this.state.dados_empresa.financials;
-
+    
+    
     //Condição para evitar que a página carregue as informações mais de uma vez e duplique os dados no array data_API
     if(data!==undefined && page_init===0){
       
@@ -115,6 +123,7 @@ export default class GraphReceita extends Component {
         if(lista_de_datas[i].date.length!==undefined){
           aux_tamanhos.unshift(lista_de_datas[i].date[lista_de_datas[i].date.length-1])
         }
+        
       })
       menor_ano=Math.min(...aux_tamanhos.sort((a, b) => a - b))
       aux_tamanhos.map(function(item,i){
@@ -134,14 +143,14 @@ export default class GraphReceita extends Component {
         }
       })
       //---------------------------------------------------------------------------------------------------------------------------------------------------
-
-
       //Setando o eixo X com os anos da maior lista de anos
       this.state.categories=lista_de_datas[maior_lista_anos].date;
       this.state.categories.unshift(menor_ano)
-    
       page_init++;
+      console.log('Obejtos da API para confirmar as informações')
+      console.log(data_API)
     }
+    
     return (
       <Grid container spacing={2}>
         <Grid item xs={12}>
