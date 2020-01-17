@@ -24,9 +24,11 @@ Gŕafico dinâmico com dados sobre a empresa selecionada na tabela     #OK
 ```bash
 Comparação entre empresas selecionadas     #Desenvolvendo...
 
-.View dos gráficos para a comparação já está montando e carregando os dados em gráficos dinamicante a partir do simbolo enviado pela url.
+.View dos gráficos para a comparação já está montada e carregando os dados em gráficos dinamicante a partir do simbolo enviado pela url. #OK
 
-.Falta apenas terminar a interpretação dos dados dos demais simbolos além do primeiro
+
+##   Falta apenas deslocar a linha do gráfico para o dado bater com seu respectivo ano !   ##
+
 ```
 ## Instalação
 
