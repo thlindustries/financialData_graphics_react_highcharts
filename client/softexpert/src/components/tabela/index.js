@@ -24,6 +24,7 @@ import Grid from '@material-ui/core/Grid';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 
+//Variavies para manipulação de dados
 let load_page=0;
 let opcao=0;
 let lista_pesquisa=[]
@@ -74,7 +75,7 @@ function TablePaginationActions(props) {
         }
       }, 100);
       
-      console.log('check'+lista_pesquisa[x])
+      //console.log('check'+lista_pesquisa[x])
     }
   };
 
@@ -87,7 +88,7 @@ function TablePaginationActions(props) {
         }
       }, 100);
       
-      console.log('check'+lista_pesquisa[x])
+      //console.log('check'+lista_pesquisa[x])
     }
   };
 
@@ -100,7 +101,7 @@ function TablePaginationActions(props) {
         }
       }, 100);
       
-      console.log('check'+lista_pesquisa[x])
+      //console.log('check'+lista_pesquisa[x])
     }
   };
 
