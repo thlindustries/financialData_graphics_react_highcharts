@@ -1,5 +1,7 @@
 Iniciando o desafio
 
+Aplicação front end desenvolvida utilizando React JS que consome uma API de dados financeiros sobre empresas extrangeiras !
+
 # Pacotes utilizados
 ```bash
 React:
@@ -62,6 +64,7 @@ Para acessar a aplicação basta entrar no endereço:
 1. Redirecionamento automatico quando a API retornar objeto vazio
 2. Design de interface
 3. Update em tempo real
+4. Otimização de código
 
 
 
