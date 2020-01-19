@@ -282,24 +282,20 @@ export default function CustomPaginationActionsTable(dados) {
           <Fab style={{marginLeft:'42%'}}color="primary" variant="extended" onClick={() => { 
                 console.log('Voce apertou o botao para comparar as empresas '+ lista_pesquisa); 
                 let url=''
+
+                //Logica para evitar erros em caso de retorno de objeto vazio pela API
                 lista_pesquisa.map(function(item,i){
                   axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+lista_pesquisa[i]).then(resultado=>{
                     if(resultado.data.financials===undefined){
                       alert('A API retornou um objeto vazio da empresa '+lista_pesquisa[i]+' !');
-                      //simbolo_empresa.splice(i, 1);
                     }
                     else{
-                      // for(let i=0;i<lista_pesquisa.length;i++){
-                        url=url+lista_pesquisa[i]+'/'
-                      // }
+                      url=url+lista_pesquisa[i]+'/'
                       console.log(url)
                       window.location.href = "/comparar/"+url;
                     }
                   })
                 })
-                
-                
-                
               }} >
             <CompareArrowsIcon className={classes.extendedIcon} />
             Comparar Empresas

@@ -54,11 +54,7 @@ export default class GraphReceita extends Component {
       axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+todos_simbolos[i]).then(resultado=>{
 
         if(resultado.data.financials===undefined){
-          //alert('A API retornou um objeto vazio da empresa '+todos_simbolos[i]+' !, Por favor remova o simbolo da URL')
-          //alert('teste')
-          // for( var i = todos_simbolos-1; i--;){
-          //   if ( todos_simbolos[i] === todos_simbolos[i]) todos_simbolos.splice(i, 1);
-          // }
+
         }
         else{
           data_API.unshift(resultado.data.financials)
