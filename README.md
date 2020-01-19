@@ -41,7 +41,8 @@ npm start
 ![alt text](https://i.imgur.com/dHE7Dv4.png)
 
 # Atenção // 
-# Nota de correção: Redirecionamento automatico implementado !
+# Nota de correção: 
+**Redirecionamento automatico implementado !**
 ### 3. ~~Caso voce selecione uma empresa em que a API retorne um objeto vazio um alerta irá aparecer ! *(A empresa circulada no caso retorna um objeto vazio)~~*
 
 
