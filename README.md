@@ -44,12 +44,8 @@ npm start
 # Nota de correção: Redirecionamento automatico implementado !
 ### 3. ~~Caso voce selecione uma empresa em que a API retorne um objeto vazio um alerta irá aparecer ! *(A empresa circulada no caso retorna um objeto vazio)~~*
 
-![alt text](https://i.imgur.com/Lzispqf.png)
 
 ### 3.1. ~~Leia o *ALERT*, remova da *URL* o(s) Símbolo(s) das empresas que o *ALERT* informou e carregue a página novamente !~~
-![alt text](https://i.imgur.com/c5PP1W2.png)
-![alt text](https://i.imgur.com/aGcewog.png)
-![alt text](https://i.imgur.com/nZn0KVh.png)
 
 
 
