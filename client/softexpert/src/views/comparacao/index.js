@@ -9,12 +9,16 @@ import GraphMargemEbitda from '../../components/graficos/graph_margem_ebitda'
 import GraphEbitda from '../../components/graficos/graph_ebitda'
 import GraphRendaConsolidada from '../../components/graficos/graph_renda_consolidada'
 
+//Comunicação com a API
+import axios from 'axios';
+
 import { Container } from './styles';
 let simbolo_empresa=[]
 let simbolo_empresa_filtrado=[]
 let load_page=0
 
 function splitString(stringToSplit, separator) {
+    
     var arrayOfStrings = stringToSplit.split(separator);
     simbolo_empresa=arrayOfStrings
     for(let i=0;i<arrayOfStrings.lenght;i++){
@@ -39,8 +43,7 @@ export default class comparacao extends Component {
         })
         for(let i=0;i<simbolo_empresa_filtrado.length;i++){
         }
-    }
-    
+    }    
     return (
         <Container>
             <Grid container spacing={1}>

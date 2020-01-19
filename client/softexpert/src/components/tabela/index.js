@@ -1,6 +1,6 @@
 //Imports do Material-Ui
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -23,6 +23,9 @@ import Grid from '@material-ui/core/Grid';
 //icones
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
+
+//API
+import axios from 'axios';
 
 //Variavies para manipulação de dados
 let load_page=0;
@@ -200,11 +203,12 @@ export default function CustomPaginationActionsTable(dados) {
   //Condição para que a página nao carregue as informações 2 vezes e não duplique os itens da tabela ao clicar pra avançar pagina na mesma
   if(data!==undefined && load_page===0){
     data.map(function(item,i){
-        rows.push(createData(data[i].name,data[i].symbol,data[i].price))
+      rows.push(createData(data[i].name,data[i].symbol,data[i].price))
     })
     rows.sort((a, b) => (a.simbolo < b.simbolo ? -1 : 1));
     load_page=1;
   }
+
   return (
     <Grid >
       <Grid item xs={12}>
@@ -278,11 +282,24 @@ export default function CustomPaginationActionsTable(dados) {
           <Fab style={{marginLeft:'42%'}}color="primary" variant="extended" onClick={() => { 
                 console.log('Voce apertou o botao para comparar as empresas '+ lista_pesquisa); 
                 let url=''
-                for(let i=0;i<lista_pesquisa.length;i++){
-                  url=url+lista_pesquisa[i]+'/'
-                }
-                //console.log(url)
-                window.location.href = "/comparar/"+url;
+                lista_pesquisa.map(function(item,i){
+                  axios.get('https://financialmodelingprep.com/api/v3/financials/income-statement/'+lista_pesquisa[i]).then(resultado=>{
+                    if(resultado.data.financials===undefined){
+                      alert('A API retornou um objeto vazio da empresa '+lista_pesquisa[i]+' !');
+                      //simbolo_empresa.splice(i, 1);
+                    }
+                    else{
+                      // for(let i=0;i<lista_pesquisa.length;i++){
+                        url=url+lista_pesquisa[i]+'/'
+                      // }
+                      console.log(url)
+                      window.location.href = "/comparar/"+url;
+                    }
+                  })
+                })
+                
+                
+                
               }} >
             <CompareArrowsIcon className={classes.extendedIcon} />
             Comparar Empresas
