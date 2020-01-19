@@ -12,6 +12,11 @@ npm install
 npm start
 ```
 
+# Acessar a aplicação
+Para acessar a aplicação basta entrar no endereço:
+
+[localhost:3000](http://localhost:3000)
+
 # Como navegar pela aplicação?
 
 ### **1. Para consultar os dados de apenas uma empresa basta clicar no botão que existe no final da linha respectiva à empresa que deseja visualizar**
@@ -30,12 +35,6 @@ npm start
 
 
 3.1. ~~Leia o *ALERT*, remova da *URL* o(s) Símbolo(s) das empresas que o *ALERT* informou e carregue a página novamente !~~
-
-# Acessar a aplicação
-Para acessar a aplicação basta entrar no endereço:
-
-[localhost:3000](http://localhost:3000)
-
 
 
 # Pacotes utilizados
