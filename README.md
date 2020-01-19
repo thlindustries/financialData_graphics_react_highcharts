@@ -42,7 +42,7 @@ npm start
 
 # Atenção // 
 # Nota de correção: 
-**Redirecionamento automatico implementado !**
+### **Redirecionamento automatico implementado !**
 
 3. ~~Caso voce selecione uma empresa em que a API retorne um objeto vazio um alerta irá aparecer ! *(A empresa circulada no caso retorna um objeto vazio)~~*
 
